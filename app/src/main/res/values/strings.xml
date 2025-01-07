@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Convoxing</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="why_is_convoxing_different">Why is Convoxing different?</string>
+    <string name="learning_tailored_to_you">Learning tailored to you</string>
+    <string name="immererse_in_locals_speaking_videos">Immererse in locals speaking videos</string>
+    <string name="communications_with_ai_for_practice">Communications with AI for practice</string>
+    <string name="continue_with_facebook">Continue with Facebook</string>
+    <string name="continue_with_google">Continue with Google</string>
+</resources>
