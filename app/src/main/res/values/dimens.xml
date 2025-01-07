@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="spacing">12dp</dimen>
+    <dimen name="grid_spacing">10dp</dimen>
+    <dimen name="time_spacing">2dp</dimen>
+    <dimen name="plan_spacing">2dp</dimen>
+    <dimen name="popup_horizontal_margin">24dp</dimen>
+    <dimen name="bottom_margin">16dp</dimen>
+</resources>

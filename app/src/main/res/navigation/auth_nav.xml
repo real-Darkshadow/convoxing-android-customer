@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_nav.xml"
+    app:startDestination="@id/authOnboardingFragment">
+
+
+    <fragment
+        android:id="@+id/authOnboardingFragment"
+        android:name="com.convoxing.convoxing_customer.ui.auth.fragments.LoginFragment"
+        android:label="fragment_auth_onboarding"
+        tools:layout="@layout/fragment_login" />
+</navigation>

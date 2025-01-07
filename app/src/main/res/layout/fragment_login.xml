@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="24dp"
+    android:paddingBottom="48dp"
+    tools:context=".ui.auth.fragments.LoginFragment">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/gilroy_bold"
+        android:paddingTop="36dp"
+        android:text="@string/why_is_convoxing_different"
+        android:textColor="@color/white"
+        android:textSize="32sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="12dp"
+        android:fontFamily="@font/gilroy_semibold"
+        android:gravity="center|start"
+        android:paddingTop="36dp"
+        android:text="@string/learning_tailored_to_you"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:drawableLeftCompat="@drawable/ic_ok_hand"
+        app:drawableTint="@color/white" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="12dp"
+        android:fontFamily="@font/gilroy_semibold"
+        android:gravity="center|start"
+        android:paddingTop="12dp"
+        android:text="@string/immererse_in_locals_speaking_videos"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:drawableLeftCompat="@drawable/ic_chat_bubble_24"
+        app:drawableTint="@color/white" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="12dp"
+        android:fontFamily="@font/gilroy_semibold"
+        android:gravity="center|start"
+        android:paddingTop="12dp"
+        android:text="@string/communications_with_ai_for_practice"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:drawableLeftCompat="@drawable/ic_chat_bubble_24"
+        app:drawableTint="@color/white" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sign_in_with_facebook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="16dp"
+        android:layout_marginBottom="19dp"
+        android:background="@drawable/secondary_button_bg"
+        android:minHeight="48dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/terms_condition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:elevation="5dp"
+                app:srcCompat="@drawable/ic_faceboook" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/gilroy_bold"
+                android:text="@string/continue_with_facebook"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sign_in_with_google"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginBottom="19dp"
+        android:background="@drawable/primary_button_bg"
+        android:backgroundTint="@color/anti_flash_white"
+        android:minHeight="48dp"
+        android:paddingVertical="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/terms_condition"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
+                android:layout_marginEnd="8dp"
+                android:elevation="5dp"
+                app:srcCompat="@drawable/ic_google" />
+
+            <TextView
+                android:id="@+id/tv_google_sign_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/gilroy_bold"
+                android:text="@string/continue_with_google"
+                android:textColor="@color/primary_text_dark"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>
