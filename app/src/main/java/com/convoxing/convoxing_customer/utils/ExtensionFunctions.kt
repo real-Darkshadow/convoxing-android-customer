@@ -33,13 +33,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.Glide
+import com.convoxing.convoxing_customer.BuildConfig
 import com.convoxing.convoxing_customer.R
+import com.convoxing.convoxing_customer.data.models.CrashlyticsCustomLog
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.crashlytics.ktx.crashlytics
-import com.google.firebase.ktx.Firebase
+import com.google.firebase.Firebase
+import com.google.firebase.crashlytics.crashlytics
 import com.google.gson.Gson
-import kotlinx.coroutines.NonCancellable.message
 import org.json.JSONObject
 import retrofit2.HttpException
 import java.math.RoundingMode
@@ -124,9 +124,9 @@ object ExtensionFunctions {
     }
 
 
-    fun ImageView.loadImage(url: Any) {
-        Glide.with(this).load(url).placeholder(R.drawable.ic_user_placeholder).into(this)
-    }
+//    fun ImageView.loadImage(url: Any) {
+//        Glide.with(this).load(url).placeholder(R.drawable.ic_user_placeholder).into(this)
+//    }
 
     fun ArrayList<String>.clearList(): ArrayList<String> {
         val re = Regex("[^\\d.]")
@@ -220,7 +220,6 @@ object ExtensionFunctions {
         CrashlyticsCustomLog().apply(lambda).apply {
             exception?.let {
                 try {
-                    Log.d("TAG", "logError: $message")
                     Firebase.crashlytics.log(
                         message.toJson() ?: ("" + (exception?.message
                             ?: "") + "\nfunction = ${function.toString()}")
@@ -248,23 +247,23 @@ object ExtensionFunctions {
      * @param mode 0 for primary
      * @param mode 1 for white
      */
-    fun Fragment.changeStatusBar(mode: Int) {
-
-        if (mode == 0) {
-            requireActivity().window.decorView.systemUiVisibility = 0
-            requireActivity().window.statusBarColor =
-                resources.getColor(R.color.colorPrimary)
-        } else {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-                requireActivity().window.decorView.systemUiVisibility =
-                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
-                requireActivity().window.statusBarColor =
-                    resources.getColor(R.color.background_off_white1)
-            }
-        }
-    }
+//    fun Fragment.changeStatusBar(mode: Int) {
+//
+//        if (mode == 0) {
+//            requireActivity().window.decorView.systemUiVisibility = 0
+//            requireActivity().window.statusBarColor =
+//                resources.getColor(R.color.colorPrimary)
+//        } else {
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//                requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+//                requireActivity().window.decorView.systemUiVisibility =
+//                    View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+//                requireActivity().window.statusBarColor =
+//                    resources.getColor(R.color.background_off_white1)
+//            }
+//        }
+//    }
 
     /**
      * @param mode 0 for darker color
@@ -274,7 +273,7 @@ object ExtensionFunctions {
         if (mode == 0) {
             requireActivity().window.decorView.systemUiVisibility = 0
             requireActivity().window.statusBarColor =
-                resources.getColor(R.color.dark_green)
+                resources.getColor(R.color.background)
         } else {
             requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -483,7 +482,7 @@ object ExtensionFunctions {
             snackBar.setActionTextColor(
                 ContextCompat.getColor(
                     this,
-                    R.color.colorPrimary
+                    R.color.primary_text_dark
                 )
             )
             snackBar.show()

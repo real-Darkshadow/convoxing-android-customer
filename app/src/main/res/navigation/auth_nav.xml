@@ -11,4 +11,8 @@
         android:name="com.convoxing.convoxing_customer.ui.auth.fragments.LoginFragment"
         android:label="fragment_auth_onboarding"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/onboardingFragment"
+        android:name="com.convoxing.convoxing_customer.ui.auth.fragments.OnboardingFragment"
+        android:label="OnboardingFragment" />
 </navigation>

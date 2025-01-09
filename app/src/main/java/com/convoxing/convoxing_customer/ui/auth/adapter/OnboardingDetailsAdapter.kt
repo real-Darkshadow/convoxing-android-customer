@@ -28,7 +28,7 @@ class OnboardingDetailsAdapter(
                 } else {
                     container.setBackgroundResource(R.drawable.primary_button_bg)
                     container.backgroundTintList =
-                        ContextCompat.getColorStateList(context, R.color.secondary)
+                        ContextCompat.getColorStateList(context, R.color.anti_flash_white)
                 }
 
                 root.setOnClickListener {

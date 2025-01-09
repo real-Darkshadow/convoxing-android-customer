@@ -1,5 +1,7 @@
 package com.convoxing.convoxing_customer.data.remote.api
 
+import com.convoxing.convoxing_customer.data.remote.models.SuccessResponse
+import com.convoxing.convoxing_customer.utils.Resource
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -19,19 +21,21 @@ interface ApiService {
     suspend fun findUserById(
         @HeaderMap headerMap: HashMap<String, String>,
         @Body body: HashMap<String, String>,
-    ): SuccessResponse
+    )
 
-    @GET("api/images")
-    suspend fun getImages(@Header("x-access-token") token: String): Response<com.clapingo.speakana.data.models.ImageResponse>
-
-    @POST("api/user/v1/signupUser")
-    suspend fun signupUser(@Body signUpData: HashMap<String, Any>): SuccessResponse
-
-    @PUT("api/User/v1/setupUser")
+    @PUT("api/user/setupUser")
     suspend fun setupUserProfile(
         @HeaderMap headerMap: HashMap<String, String>,
         @Body body: HashMap<String, Any>,
     ): SuccessResponse
+
+    @POST("api/user/socialAuth")
+    suspend fun socialAuthentication(@Body body: RequestBody): SuccessResponse
+
+
+//    @GET("api/images")
+//    suspend fun getImages(@Header("x-access-token") token: String): Response<com.clapingo.speakana.data.models.ImageResponse>
+
 
     @POST("api/User/getFilteredPlan")
     suspend fun getFilteredPlan(
@@ -51,16 +55,14 @@ interface ApiService {
         @Body body: HashMap<String, String>,
     ): ResponseBody
 
-    @POST("api/User/socialAuth")
-    suspend fun socialAuthentication(@Body body: RequestBody): SuccessResponse
 
-    @PUT("api/User/updateNotificationId")
+    @PUT("/api/User/updateNotificationId")
     fun updateNotificationId(
         @Header("x-access-token") token: String,
         @Body body: HashMap<String, String>,
     ): Response<SuccessResponse>
 
-    @GET("api/User/getDailyStreak")
+    @GET("/api/User/getDailyStreak")
     suspend fun getUserDailyStreak(
         @Header("x-access-token") token: String,
         @Query("userId") sessionId: String,

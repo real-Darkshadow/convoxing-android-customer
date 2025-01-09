@@ -8,4 +8,6 @@
     <string name="communications_with_ai_for_practice">Communications with AI for practice</string>
     <string name="continue_with_facebook">Continue with Facebook</string>
     <string name="continue_with_google">Continue with Google</string>
+    <string name="analytic_event_login_success">login_success</string>
+    <string name="analytic_event_login_failed">login_fail</string>
 </resources>

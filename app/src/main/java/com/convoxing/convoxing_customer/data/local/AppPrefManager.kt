@@ -3,6 +3,7 @@ package com.convoxing.convoxing_customer.data.local
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
+import com.convoxing.convoxing_customer.data.remote.models.User
 import com.google.gson.Gson
 
 class AppPrefManager(context: Context) {
@@ -23,6 +24,18 @@ class AppPrefManager(context: Context) {
 
     // Add other getter and setter methods for other preferences
 
+    var user: User
+        get() {
+            val data = pref.getString(PREF_USER_DATA, null)
+            val gson = Gson()
+            return gson.fromJson(data, User::class.java)
+        }
+        set(value) {
+            val gson = Gson()
+            val userJson = gson.toJson(value)
+            editor.putString(PREF_USER_DATA, userJson)
+            editor.commit()
+        }
 
     var isUserReviewed: Boolean
         get() = pref.getBoolean(PREF_REVIEWED, false)
@@ -35,6 +48,8 @@ class AppPrefManager(context: Context) {
     companion object {
         private const val PREF_NAME = "convoxing-customer-app"
         private const val PREF_IS_USER_LOGGED_ID = "customer-app-is_use_logged_in"
+        private const val PREF_USER_DATA = "convoxing_user"
         private const val PREF_REVIEWED = "reviewed"
+
     }
 }

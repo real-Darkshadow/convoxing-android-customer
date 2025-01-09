@@ -9,10 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.convoxing.convoxing_customer.MainActivity
+import com.convoxing.convoxing_customer.ui.home.activity.MainActivity
 import com.convoxing.convoxing_customer.R
 import com.convoxing.convoxing_customer.data.local.AppPrefManager
 import com.convoxing.convoxing_customer.data.models.OnboardingScreenData
@@ -23,6 +22,7 @@ import com.convoxing.convoxing_customer.ui.auth.viewmodel.AuthViewModel.DetailSc
 import com.convoxing.convoxing_customer.utils.ExtensionFunctions.gone
 import com.convoxing.convoxing_customer.utils.ExtensionFunctions.showToast
 import com.convoxing.convoxing_customer.utils.ExtensionFunctions.visible
+import com.convoxing.convoxing_customer.utils.Resource
 import com.convoxing.convoxing_customer.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -75,25 +75,11 @@ class OnboardingFragment : Fragment() {
                         viewModel.name = nameEt.text.toString()
 
                         viewModel.currentScreen.postValue(
-                            DetailScreenType.GoalScreen
+                            DetailScreenType.AgeScreen
                         )
                     }
 
-                    DetailScreenType.GoalScreen -> {
-                        if (viewModel.goal.isBlank()) {
-                            showToast("Please select a goal")
-                            return@setOnClickListener
-                        }
-                        viewModel.addUserDetails()
-                    }
-
-                    DetailScreenType.ProfessionScreen -> {
-                        if (viewModel.profession.isBlank()) {
-                            showToast("Please select your profession")
-                            return@setOnClickListener
-                        }
-                        viewModel.addUserDetails()
-                    }
+                    else -> Unit
                 }
             }
         }
@@ -102,9 +88,29 @@ class OnboardingFragment : Fragment() {
     private fun setupAdapter() {
         mAdapter = OnboardingDetailsAdapter(arrayListOf()) {
             when (currentScreen) {
-                DetailScreenType.GoalScreen -> viewModel.goal = it
-                DetailScreenType.ProfessionScreen -> viewModel.profession = it
+                DetailScreenType.AgeScreen -> {
+                    viewModel.age = it
+
+                    viewModel.currentScreen.postValue(
+                        DetailScreenType.EnglishLevelScreen
+                    )
+                }
+
+                DetailScreenType.EnglishLevelScreen -> {
+                    viewModel.englishLevel = it
+
+                    viewModel.updateUserDetails()
+                }
+
                 else -> Unit
+            }
+        }
+        binding.recyclerView.apply {
+            this.layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            if (itemDecorationCount == 0) {
+                val bottomMarginInPx = resources.getDimensionPixelSize(R.dimen.bottom_margin)
+                addItemDecoration(BottomMarginItemDecoration(bottomMarginInPx))
             }
         }
         binding.recyclerView.adapter = mAdapter
@@ -115,29 +121,33 @@ class OnboardingFragment : Fragment() {
             currentScreen = screen
             when (screen) {
                 DetailScreenType.NameScreen -> setupNameScreen()
-                DetailScreenType.GoalScreen -> setupGoalScreen()
-                DetailScreenType.ProfessionScreen -> setupProfessionScreen()
+                DetailScreenType.AgeScreen -> setupAgeScreen()
+                DetailScreenType.EnglishLevelScreen -> setupEnglishLevelScreen()
+                DetailScreenType.CraftingExperienceScreen -> setupCraftingScreen()
             }
         }
-        viewModel.addUserDetailsResult.observe(viewLifecycleOwner) {
+        viewModel.updateUserDataResult.observe(viewLifecycleOwner) {
             when (it.status) {
                 Status.SUCCESS -> {
+                    it.data?.user?.let { user ->
+                        viewModel.setUserPref(user)
+                    }
                     appPrefManager.isUserLoggedIn = true
                     startActivity(Intent(requireContext(), MainActivity::class.java))
                     requireActivity().finishAffinity()
                 }
 
                 Status.ERROR -> {
-
+                    viewModel.updateUserDataResult.postValue(Resource.idle())
+                    viewModel.currentScreen.postValue(DetailScreenType.EnglishLevelScreen)
+                    showToast("Something Went Wrong")
                 }
 
                 Status.LOADING -> {
-
+                    viewModel.currentScreen.postValue(DetailScreenType.CraftingExperienceScreen)
                 }
 
-                Status.IDLE -> {
-
-                }
+                Status.IDLE -> Unit
 
             }
         }
@@ -146,46 +156,51 @@ class OnboardingFragment : Fragment() {
     private fun setupNameScreen() {
         binding.apply {
             nameContainer.visible()
+            animationView.gone()
             recyclerView.gone()
-            headline.text = "What is your name?"
-            subHeadline.text = "Write your name below"
+            headline.text = "So nice to meet you."
+            subHeadline.text = "What's your name ?"
+            nxtBtn.text = "Next"
+            nxtBtn.visible()
         }
     }
 
-    private fun setupGoalScreen() {
+    private fun setupAgeScreen() {
         binding.apply {
             nameContainer.gone()
-            binding.recyclerView.apply {
-                this.layoutManager =
-                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-                if (itemDecorationCount == 0) {
-                    val bottomMarginInPx = resources.getDimensionPixelSize(R.dimen.bottom_margin)
-                    addItemDecoration(BottomMarginItemDecoration(bottomMarginInPx))
-                }
-                this.visible()
-            }
+            animationView.gone()
             mAdapter.clearData()
-            mAdapter.updateData(goals)
-            nxtBtn.text = "Finish"
-            headline.text = "What is your goal?"
-            subHeadline.text = "Select a goal from below"
-        }
-    }
-
-    // TODO: Unable to apply flexbox layout
-    private fun setupProfessionScreen() {
-        binding.apply {
-            nameContainer.gone()
             recyclerView.visible()
-            binding.recyclerView.apply {
-                this.layoutManager = GridLayoutManager(requireContext(), 2)
-                this.visible()
-            }
+            mAdapter.updateData(ageList)
+            nxtBtn.gone()
+            headline.text = "Hi ${viewModel.name},"
+            subHeadline.text = "how old are you ?"
+        }
+    }
+
+    private fun setupEnglishLevelScreen() {
+        binding.apply {
+            nameContainer.gone()
+            animationView.gone()
+            recyclerView.visible()
             mAdapter.clearData()
-            mAdapter.updateData(profession)
-            nxtBtn.text = "Finish"
-            headline.text = "What is your profession?"
-            subHeadline.text = "Select your profession from below"
+            mAdapter.updateData(englishLevelList)
+//            nxtBtn.text = "Finish"
+            nxtBtn.gone()
+            headline.text = "On a scale of 1-5,"
+            subHeadline.text = "how's your English ?"
+        }
+    }
+
+    private fun setupCraftingScreen() {
+        binding.apply {
+            nameContainer.gone()
+            recyclerView.gone()
+            nxtBtn.gone()
+            animationView.visible()
+            headline.text = "We are crafting"
+            subHeadline.text = "your experience..."
+
         }
     }
 
@@ -199,16 +214,18 @@ class OnboardingFragment : Fragment() {
                             requireActivity().finishAffinity()
                         }
 
-                        DetailScreenType.GoalScreen -> {
-                            viewModel.goal = ""
+                        DetailScreenType.AgeScreen -> {
+                            viewModel.age = ""
                             viewModel.currentScreen.postValue(DetailScreenType.NameScreen)
                         }
 
-                        DetailScreenType.ProfessionScreen -> {
-                            viewModel.profession = ""
-                            viewModel.goal = ""
-                            viewModel.currentScreen.postValue(DetailScreenType.GoalScreen)
+                        DetailScreenType.EnglishLevelScreen -> {
+                            viewModel.englishLevel = ""
+                            viewModel.age = ""
+                            viewModel.currentScreen.postValue(DetailScreenType.AgeScreen)
                         }
+
+                        DetailScreenType.CraftingExperienceScreen -> Unit
                     }
                 }
             })
@@ -220,20 +237,23 @@ class OnboardingFragment : Fragment() {
     }
 
     companion object {
-        val goals = arrayListOf(
-            OnboardingScreenData("Crack Interviews", null),
-            OnboardingScreenData("Professional Communication", null),
-            OnboardingScreenData("Higher Studies or IELTS", null),
-            OnboardingScreenData("Casual or fun", null)
+        val ageList = arrayListOf(
+            OnboardingScreenData("Under 12", null),
+            OnboardingScreenData("12 - 15", null),
+            OnboardingScreenData("16 - 18", null),
+            OnboardingScreenData("19 - 24", null),
+            OnboardingScreenData("25 - 34", null),
+            OnboardingScreenData("35 - 44", null),
+            OnboardingScreenData("45 - 54", null),
+            OnboardingScreenData("55 - 64", null),
+            OnboardingScreenData("65 or older", null)
         )
-        val profession = arrayListOf(
-            OnboardingScreenData("Teacher", null),
-            OnboardingScreenData("Working professional", null),
-            OnboardingScreenData("Student", null),
-            OnboardingScreenData("Govt. Official", null),
-            OnboardingScreenData("Freelancer", null),
-            OnboardingScreenData("Artist", null),
-            OnboardingScreenData("Other", null)
+        val englishLevelList = arrayListOf(
+            OnboardingScreenData("1 - Beginner", null),
+            OnboardingScreenData("2 - Basic", null),
+            OnboardingScreenData("3 - Intermediate", null),
+            OnboardingScreenData("4 - Advanced", null),
+            OnboardingScreenData("5 - Professional", null),
         )
     }
 

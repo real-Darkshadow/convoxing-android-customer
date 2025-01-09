@@ -2,9 +2,8 @@ package com.convoxing.convoxing_customer.di
 
 import com.amplitude.android.Amplitude
 import com.amplitude.android.Configuration
-import com.clapingo.speakana.BuildConfig
-import com.clapingo.speakana.data.local.AppPrefManager
-import com.clapingo.speakana.util.analytics.AnalyticsHelperUtil
+import com.convoxing.convoxing_customer.BuildConfig
+import com.convoxing.convoxing_customer.utils.analytics.AnalyticsHelperUtil
 import com.convoxing.convoxing_customer.ConvoxingApp
 import com.convoxing.convoxing_customer.data.local.AppPrefManager
 import com.datadog.android.Datadog
@@ -29,9 +28,8 @@ object EngagementModule {
     fun providesAnalyticsUtil(
         firebaseAnalytics: FirebaseAnalytics,
         amplitude: Amplitude,
-        analytics: Analytics,
     ): AnalyticsHelperUtil {
-        return AnalyticsHelperUtil(amplitude, firebaseAnalytics, analytics)
+        return AnalyticsHelperUtil(amplitude, firebaseAnalytics)
     }
 
 
@@ -64,18 +62,15 @@ object EngagementModule {
             variant = BuildConfig.VERSION_NAME
         ).build()
         Datadog.initialize(context, configuration, TrackingConsent.GRANTED)
-        try {
-            Datadog.setUserInfo(
-                appPrefManager.user.mId,
-                appPrefManager.user.userName,
-                appPrefManager.user.email ?: "N/A"
-            )
-            if (appPrefManager.user.isLogsEnabled) {
-                val logsConfig = LogsConfiguration.Builder().build()
-                Logs.enable(logsConfig)
-            }
-        } catch (_: Exception) {
-        }
+//        try {
+//            Datadog.setUserInfo(
+//                appPrefManager.user.mId,
+//                appPrefManager.user.userName,
+//                appPrefManager.user.email ?: "N/A"
+//            )
+//
+//        } catch (_: Exception) {
+//        }
 
         val logger = Logger.Builder()
             .setNetworkInfoEnabled(true)

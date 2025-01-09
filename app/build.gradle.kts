@@ -5,16 +5,19 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.google.firebase.crashlytics)
+    alias(libs.plugins.google.firebase.firebase.perf)
 }
 
 android {
     namespace = "com.convoxing.convoxing_customer"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.convoxing.convoxing_customer"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -23,19 +26,19 @@ android {
     buildTypes {
         create("internationalDebug") {
             initWith(getByName("debug"))
-            getProps("./app/config/dev-env.properties").forEach { (key, value) ->
+            getProps("${rootDir}/app/config/dev-env.properties").forEach { (key, value) ->
                 buildConfigField("String", key, value)
             }
         }
 
         getByName("debug") {
-            getProps("./app/config/dev-env.properties").forEach { (key, value) ->
+            getProps("${rootDir}/app/config/dev-env.properties").forEach { (key, value) ->
                 buildConfigField("String", key, value)
             }
         }
 
         getByName("release") {
-            getProps("./app/config/prod-env.properties").forEach { (key, value) ->
+            getProps("${rootDir}/app/config/prod-env.properties").forEach { (key, value) ->
                 buildConfigField("String", key, value)
             }
             isShrinkResources = false
@@ -73,6 +76,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.transport.api)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,6 +84,7 @@ dependencies {
     /*GOOGLE-PLAY CORE*/
     implementation(libs.review.ktx)
     implementation(libs.app.update.ktx)
+    implementation(libs.firebase.crashlytics)
     implementation(libs.feature.delivery.ktx)
     implementation(libs.installreferrer)
     implementation(libs.play.services.auth)
@@ -100,11 +105,10 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-    /*LOTTIE ANIMATION*/
-    implementation(libs.lottie)
-
-    /*DATA STORE*/
-    implementation(libs.androidx.datastore.preferences)
+    /* GOOGLE CREDENTIAL MANAGER*/
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 
     /*networking*/
     implementation(libs.gson)
@@ -118,6 +122,12 @@ dependencies {
     /* AMPLITUDE*/
     implementation(libs.analytics.android)
 
+    /* LOTTIE*/
+    implementation(libs.lottie)
+
+    /* CARD STACK*/
+    implementation(libs.cardstackview)
+
 
 }
 // Allow references to generated code
@@ -125,21 +135,15 @@ kapt {
     correctErrorTypes = true
 }
 
-fun Project.getProps(path: String): Map<String, String> {
-    val propsFile = file(path)
-    if (!propsFile.exists()) {
-        logger.warn("Properties file not found: $path")
+fun getProps(filePath: String): Map<String, String> {
+    val file = file(filePath)
+    if (!file.exists()) {
+        println("Warning: Properties file not found: $filePath")
         return emptyMap()
     }
 
-    val properties = Properties()
-    propsFile.inputStream().use { inputStream ->
-        properties.load(inputStream)
+    val properties = Properties().apply {
+        file.inputStream().use { load(it) }
     }
-
-    // Return each property as a key-value pair in a Map
-    return properties.entries.associate { (key, value) ->
-        // Surround the property value with quotes if you want string-literal style
-        key.toString() to "\"$value\""
-    }
+    return properties.entries.associate { it.key.toString() to it.value.toString() }
 }
