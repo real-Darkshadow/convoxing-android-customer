@@ -9,7 +9,8 @@
     <color name="primary">#FFBB00</color>
     <color name="mustard">#FFCA58</color>
     <color name="light_yellow">#ffeaae</color>
-    <color name="lavender">#D1C4E9</color>
+    <color name="lavender">#d0c4e8</color>
+    <color name="lavender_light">#e7dff8</color>
     <color name="secondary">#2A3748</color>
     <color name="primary_text_dark">#203346</color>
     <color name="text_gray">#37474F</color>

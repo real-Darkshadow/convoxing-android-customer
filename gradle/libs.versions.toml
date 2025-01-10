@@ -36,20 +36,16 @@ reviewKtx = "2.0.2"
 tinkAndroid = "1.8.0"
 transportApi = "3.0.0"
 googleGmsGoogleServices = "4.4.2"
-firebaseAnalytics = "22.1.2"
 firebaseCrashlytics = "19.3.0"
 googleFirebaseCrashlytics = "3.0.2"
-firebasePerf = "21.0.3"
 googleFirebaseFirebasePerf = "1.4.2"
-firebaseConfig = "22.0.1"
-firebaseMessaging = "24.1.0"
+
 
 [libraries]
 analytics-android = { module = "com.amplitude:analytics-android", version.ref = "analyticsAndroid" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
-androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
 cardstackview = { module = "com.github.yuyakaido:CardStackView", version.ref = "cardstackview" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
@@ -85,11 +81,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "converte
 review-ktx = { module = "com.google.android.play:review-ktx", version.ref = "reviewKtx" }
 tink-android = { module = "com.google.crypto.tink:tink-android", version.ref = "tinkAndroid" }
 transport-api = { group = "com.google.android.datatransport", name = "transport-api", version.ref = "transportApi" }
-firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
-firebase-perf = { group = "com.google.firebase", name = "firebase-perf", version.ref = "firebasePerf" }
-firebase-config = { group = "com.google.firebase", name = "firebase-config", version.ref = "firebaseConfig" }
-firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
