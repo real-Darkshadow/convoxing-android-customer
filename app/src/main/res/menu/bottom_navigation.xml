@@ -8,7 +8,7 @@
         android:id="@+id/practiceFragment"
         android:title="Practice" />
     <item
-        android:id="@+id/refer_and_earn"
+        android:id="@+id/leagueFragment"
         android:title="League" />
     <item
         android:id="@+id/profile"

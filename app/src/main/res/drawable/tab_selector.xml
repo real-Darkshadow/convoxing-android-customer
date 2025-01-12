@@ -7,7 +7,6 @@
         <shape android:shape="rectangle">
             <solid android:color="@color/light_yellow" />
             <corners android:radius="6dp" />
-            <!-- Padding for the background -->
             <padding android:bottom="6dp" android:left="12dp" android:right="12dp" android:top="6dp" />
         </shape>
     </item>
@@ -17,7 +16,6 @@
         <shape android:shape="rectangle">
             <solid android:color="@android:color/transparent" />  <!-- No background when unselected -->
             <corners android:radius="6dp" />
-            <!-- Padding for the background -->
             <padding android:bottom="6dp" android:left="12dp" android:right="12dp" android:top="6dp" />
         </shape>
     </item>

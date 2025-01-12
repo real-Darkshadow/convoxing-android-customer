@@ -5,14 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    app:cardElevation="4dp"
     app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/primary_button_bg_14"
-        android:backgroundTint="@color/sea_shell">
+        android:orientation="horizontal"
+        android:background="@drawable/secondary_button_bg_14"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
+
+        <ImageView
+            android:padding="4dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/yeah" />
 
         <TextView
             android:id="@+id/tv_title"

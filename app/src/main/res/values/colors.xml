@@ -14,6 +14,7 @@
     <color name="secondary">#2A3748</color>
     <color name="primary_text_dark">#203346</color>
     <color name="text_gray">#37474F</color>
+    <color name="light_gray">#9ca1a8</color>
     <color name="primary_yellow">#FFD54F</color>
     <color name="primary_text_white">#FCF9F3</color>
     <color name="background">#FFBB00</color>

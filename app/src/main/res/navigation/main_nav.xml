@@ -25,4 +25,9 @@
         android:name="com.convoxing.convoxing_customer.ui.practice.fragments.ThemesFragment"
         android:label="fragment_situations"
         tools:layout="@layout/fragment_themes" />
+    <fragment
+        android:id="@+id/leagueFragment"
+        android:name="com.convoxing.convoxing_customer.ui.league.fragments.LeagueFragment"
+        android:label="fragment_league"
+        tools:layout="@layout/fragment_league" />
 </navigation>
