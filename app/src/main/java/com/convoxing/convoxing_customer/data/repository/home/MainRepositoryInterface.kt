@@ -1,10 +1,7 @@
 package com.convoxing.convoxing_customer.data.repository.home
 
-import android.content.Context
-import com.amplitude.core.utilities.SuccessResponse
-import retrofit2.Response
-import java.io.File
-import java.net.URL
+import com.convoxing.convoxing_customer.data.remote.models.SuccessResponse
+import com.convoxing.convoxing_customer.utils.Resource
 
 interface MainRepositoryInterface {
 //    suspend fun getLearner(): SuccessResponse
@@ -52,6 +49,9 @@ interface MainRepositoryInterface {
 //
 //    suspend fun updateNotificationId(token: String)
 //    suspend fun restoreAccount(): Resource<SuccessResponse>
+
+    suspend fun getRolePlays(): Resource<SuccessResponse>
+    suspend fun getThemes(): Resource<SuccessResponse>
 
 
 }

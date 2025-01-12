@@ -50,6 +50,9 @@ data class SuccessResponse(
     @SerializedName("expiryDate")
     val expiryDate: String? = null,
 
+    val situations: ArrayList<Scenario>? = null,
+    val themes: ArrayList<Scenario>? = null,
+
 //    @SerializedName("months")
 //    val months: ArrayList<Month>? = null,
 //

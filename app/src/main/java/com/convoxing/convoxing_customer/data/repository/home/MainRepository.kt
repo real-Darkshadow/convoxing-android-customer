@@ -1,24 +1,16 @@
 package com.convoxing.convoxing_customer.data.repository.home
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.provider.ContactsContract
 import com.convoxing.convoxing_customer.ConvoxingApp
 import com.convoxing.convoxing_customer.data.local.AppPrefManager
 import com.convoxing.convoxing_customer.data.remote.api.ApiService
+import com.convoxing.convoxing_customer.data.remote.models.SuccessResponse
+import com.convoxing.convoxing_customer.utils.ExtensionFunctions.isHttpSuccessCode
+import com.convoxing.convoxing_customer.utils.ExtensionFunctions.parseErrorMessage
+import com.convoxing.convoxing_customer.utils.Resource
 import com.datadog.android.log.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
-import retrofit2.Response
-import java.io.File
-import java.net.URL
-import java.util.TimeZone
 import javax.inject.Named
-import kotlin.math.roundToInt
 
 class MainRepository(
     val context: ConvoxingApp,
@@ -1230,5 +1222,37 @@ class MainRepository(
 //            }
 //        }
 //    }
-//
+
+    override suspend fun getRolePlays(): Resource<SuccessResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+                val result = apiService.getSituations(
+                    appPrefManager.user.mToken.toString()
+                )
+                if (result.code().isHttpSuccessCode())
+                    Resource.success(result.body())
+                else
+                    Resource.error(result.body().toString())
+            } catch (e: Exception) {
+                Resource.error(e.parseErrorMessage())
+            }
+        }
+    }
+
+    override suspend fun getThemes(): Resource<SuccessResponse> {
+        return withContext(Dispatchers.IO) {
+            try {
+
+                val result = apiService.getThemes(
+                    appPrefManager.user.mToken.toString()
+                )
+                if (result.code().isHttpSuccessCode())
+                    Resource.success(result.body())
+                else
+                    Resource.error(result.body().toString())
+            } catch (e: Exception) {
+                Resource.error(e.parseErrorMessage())
+            }
+        }
+    }
 }

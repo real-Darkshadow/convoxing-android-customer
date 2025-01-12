@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- When the tab is selected, apply the background color -->
+    <item android:bottom="6dp" android:left="6dp" android:right="6dp" android:state_selected="true" android:top="6dp">
+
+        <shape android:shape="rectangle">
+            <solid android:color="@color/light_yellow" />
+            <corners android:radius="6dp" />
+            <!-- Padding for the background -->
+            <padding android:bottom="6dp" android:left="12dp" android:right="12dp" android:top="6dp" />
+        </shape>
+    </item>
+
+    <!-- When the tab is not selected, no background color -->
+    <item android:bottom="6dp" android:left="6dp" android:right="6dp" android:state_selected="false" android:top="6dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />  <!-- No background when unselected -->
+            <corners android:radius="6dp" />
+            <!-- Padding for the background -->
+            <padding android:bottom="6dp" android:left="12dp" android:right="12dp" android:top="6dp" />
+        </shape>
+    </item>
+
+</selector>

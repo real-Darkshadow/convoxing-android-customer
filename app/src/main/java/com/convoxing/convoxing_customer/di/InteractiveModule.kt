@@ -58,7 +58,6 @@ object InteractiveModule {
         appPrefManager: AppPrefManager,
         @Named("device_id")
         deviceId: String,
-
         logger: Logger,
     ): MainRepositoryInterface {
         val apiInterface = api.create(ApiService::class.java)

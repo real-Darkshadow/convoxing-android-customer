@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_nam"
+    android:id="@+id/main_nav"
     app:startDestination="@id/homeFragment">
 
     <fragment
@@ -10,4 +10,19 @@
         android:name="com.convoxing.convoxing_customer.ui.home.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/practiceFragment"
+        android:name="com.convoxing.convoxing_customer.ui.practice.fragments.PracticeFragment"
+        android:label="fragment_practice"
+        tools:layout="@layout/fragment_practice" />
+    <fragment
+        android:id="@+id/rolePlayFragment"
+        android:name="com.convoxing.convoxing_customer.ui.practice.fragments.RolePlayFragment"
+        android:label="fragment_role_play"
+        tools:layout="@layout/fragment_role_play" />
+    <fragment
+        android:id="@+id/situationsFragment"
+        android:name="com.convoxing.convoxing_customer.ui.practice.fragments.ThemesFragment"
+        android:label="fragment_situations"
+        tools:layout="@layout/fragment_themes" />
 </navigation>

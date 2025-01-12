@@ -32,6 +32,12 @@ interface ApiService {
     @POST("api/user/socialAuth")
     suspend fun socialAuthentication(@Body body: RequestBody): SuccessResponse
 
+    @GET("/api/conversation/themes")
+    suspend fun getThemes(@Header("x-access-token") token: String): Response<SuccessResponse>
+
+    @GET("/api/conversation/situations")
+    suspend fun getSituations(@Header("x-access-token") token: String): Response<SuccessResponse>
+
 
 //    @GET("api/images")
 //    suspend fun getImages(@Header("x-access-token") token: String): Response<com.clapingo.speakana.data.models.ImageResponse>
