@@ -10,24 +10,60 @@
     android:orientation="vertical"
     tools:context=".ui.practice.fragments.PracticeFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="36dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:fontFamily="@font/gilroy_semibold"
+            android:text="Our Picks For You!"
+            android:textColor="@color/secondary"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/history_btn"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:drawablePadding="2dp"
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="6dp"
+            android:background="@drawable/bordered_card_gray"
+            android:fontFamily="@font/gilroy_medium"
+            android:text="History"
+            android:textColor="@color/secondary"
+            android:textSize="16sp"
+            app:drawableStartCompat="@drawable/ic_clock_24"
+            app:drawableTint="@color/secondary" />
+
+    </LinearLayout>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         style="@style/RoundedTabLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        app:tabMinWidth="12dp"
         android:layout_marginHorizontal="16dp"
-        app:tabSelectedTextColor="@color/text_gray"
-        app:tabTextColor="@color/text_gray"
+        android:layout_marginTop="32dp"
+        app:tabMinWidth="12dp"
         app:tabMode="fixed"
         app:tabRippleColor="@null"
+        app:tabSelectedTextColor="@color/secondary"
+        app:tabTextColor="#A4A5AB"
         app:tabUnboundedRipple="false">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Situations" />
+            android:text="Themes" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"

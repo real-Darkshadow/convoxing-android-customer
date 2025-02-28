@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="32dp">
+
+        <!-- Clean, modern header -->
+        <TextView
+            android:id="@+id/settings_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textSize="24sp"
+            android:fontFamily="@font/gilroy_bold"
+            android:textColor="@color/secondary"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#F0F0F0"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/settings_title" />
+
+        <!-- Account section header -->
+        <TextView
+            android:id="@+id/account_section_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ACCOUNT"
+            android:visibility="gone"
+            android:textSize="12sp"
+            android:fontFamily="@font/gilroy_semibold"
+            android:textColor="#757575"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toBottomOf="@id/divider1"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Account section options -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/account_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/account_section_title"
+            tools:itemCount="3"
+            tools:listitem="@layout/profile_options" />
+
+        <!-- Support section header -->
+        <TextView
+            android:id="@+id/support_section_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SUPPORT"
+            android:textSize="12sp"
+            android:fontFamily="@font/gilroy_semibold"
+            android:textColor="#757575"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toBottomOf="@id/account_options"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Support section options -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/support_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/support_section_title"
+            tools:itemCount="3"
+            tools:listitem="@layout/profile_options" />
+
+        <!-- Legal section header -->
+        <TextView
+            android:id="@+id/legal_section_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LEGAL"
+            android:textSize="12sp"
+            android:fontFamily="@font/gilroy_semibold"
+            android:textColor="#757575"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toBottomOf="@id/support_options"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- Legal section options -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/legal_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/legal_section_title"
+            tools:itemCount="2"
+            tools:listitem="@layout/profile_options" />
+
+        <!-- App info at bottom -->
+        <LinearLayout
+            android:id="@+id/app_info_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="40dp"
+            app:layout_constraintTop_toBottomOf="@id/legal_options"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/app_logo"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/ic_launcher"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:id="@+id/app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Convoxing"
+                android:textSize="16sp"
+                android:fontFamily="@font/gilroy_bold"
+                android:textColor="@color/secondary" />
+
+            <TextView
+                android:id="@+id/version_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Version 1.0.0"
+                android:textSize="12sp"
+                android:fontFamily="@font/gilroy_medium"
+                android:textColor="#757575"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:id="@+id/copyright_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 2023 Convoxing. All rights reserved."
+                android:textSize="11sp"
+                android:visibility="gone"
+                android:fontFamily="@font/gilroy_regular"
+                android:textColor="#9E9E9E"
+                android:layout_marginTop="4dp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

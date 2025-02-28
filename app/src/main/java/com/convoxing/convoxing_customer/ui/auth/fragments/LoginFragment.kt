@@ -16,6 +16,8 @@ import androidx.credentials.exceptions.NoCredentialException
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.amplitude.android.Amplitude
+import com.amplitude.core.events.Identify
 import com.convoxing.convoxing_customer.BuildConfig
 import com.convoxing.convoxing_customer.ui.home.activity.MainActivity
 import com.convoxing.convoxing_customer.R
@@ -33,6 +35,10 @@ import com.convoxing.convoxing_customer.utils.analytics.AnalyticsHelperUtil
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.onesignal.OneSignal
+import com.posthog.PostHog
+import com.revenuecat.purchases.Purchases
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -48,7 +54,13 @@ class LoginFragment : Fragment() {
     private val viewModel: AuthViewModel by activityViewModels()
 
     @Inject
+    lateinit var firebaseAnalytics: FirebaseAnalytics
+
+    @Inject
     lateinit var analyticsHelper: AnalyticsHelperUtil
+
+    @Inject
+    lateinit var amplitude: Amplitude
 
     @Inject
     lateinit var appPrefManager: AppPrefManager
@@ -65,6 +77,7 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.initFcm()
+        analyticsHelper.trackScreenView("Login Screen")
         setListeners()
         setObservers()
     }
@@ -92,18 +105,51 @@ class LoginFragment : Fragment() {
                     showProgressBar(false)
                     it.data?.user?.let { user ->
                         viewModel.setUserPref(user)
+                        val identify = Identify().set("name", user.name)
+                            .set("email", user.email)
+                        identify.set("user_id", user.mId)
+                        amplitude.identify(identify)
+                        firebaseAnalytics.setUserId(user.mId)
+                        firebaseAnalytics.setUserProperty("name", user.name)
+                        firebaseAnalytics.setUserProperty("email", user.email)
+                        Purchases.sharedInstance.logIn(user.mId)
+                        PostHog.identify(
+                            user.mId,
+                            userProperties = mapOf("email" to user.email, "name" to user.name)
+                        )
+                        OneSignal.User.addEmail(user.email)
+                        OneSignal.login(user.mId)
+                        OneSignal.User.addTags(
+                            mutableMapOf(
+                                "user_name" to user.name,
+                                "is_subscribed" to user.isUserSubscribed.toString()
+                            )
+                        )
+
+                        analyticsHelper.logEvent(
+                            "login_success",
+                            mutableMapOf("email" to user.email)
+                        )
                         if (!user.isProfileSetup) {
                             findNavController().navigateSafe(R.id.onboardingFragment)
                         } else {
                             appPrefManager.isUserLoggedIn = true
                             startActivity(Intent(requireContext(), MainActivity::class.java))
+                            requireActivity().finishAffinity()
                         }
                     }
-
                 }
 
                 Status.IDLE -> Unit
-                Status.ERROR -> {}
+                Status.ERROR -> {
+                    analyticsHelper.logEvent(
+                        "login_failed",
+                        mutableMapOf()
+                    )
+                    showProgressBar(false)
+                    showToast("Something Went Wrong!")
+                }
+
                 Status.LOADING -> {}
             }
 
@@ -131,12 +177,6 @@ class LoginFragment : Fragment() {
                     credentialManager.getCredential(request = request, context = requireActivity())
                 handleGoogleSignIn(result)
             } catch (e: NoCredentialException) {
-                analyticsHelper.logEvent(
-                    "google_sign_in_cancelled", mutableMapOf(
-                        "error_type" to "NO_CREDENTIAL",
-                        "error_msg" to e.message,
-                    )
-                )
                 requireContext().startActivity(getAddGoogleAccountIntent())
             } catch (e: GetCredentialException) {
                 logError {
@@ -144,19 +184,8 @@ class LoginFragment : Fragment() {
                     exception = e
                     function = "googleSignIn"
                 }
-                analyticsHelper.logEvent(
-                    "google_sign_in_cancelled", mutableMapOf(
-                        "error_type" to e.type,
-                        "error_msg" to e.message,
-                    )
-                )
+
             } catch (e: Exception) {
-                analyticsHelper.logEvent(
-                    "google_sign_in_cancelled", mutableMapOf(
-                        "error_type" to "EXCEPTION",
-                        "error_msg" to e.message,
-                    )
-                )
                 showToast("An error occurred: ${e.localizedMessage}")
             } finally {
                 showProgressBar(false)
@@ -192,13 +221,21 @@ class LoginFragment : Fragment() {
                         showToast("Failed to parse Google ID token. Please try again.")
                         analyticsHelper.logEvent(
                             getString(R.string.analytic_event_login_failed),
-                            mutableMapOf("email" to "NA")
+                            mutableMapOf(
+                                "email" to "NA",
+                                "android" to true,
+                                "error" to e.toString()
+                            )
                         )
                     } catch (e: Exception) {
                         showToast("An error occurred: ${e.localizedMessage}")
                         analyticsHelper.logEvent(
                             getString(R.string.analytic_event_login_failed),
-                            mutableMapOf("email" to "NA")
+                            mutableMapOf(
+                                "email" to "NA",
+                                "android" to true,
+                                "error" to e.localizedMessage
+                            )
                         )
                     }
                     return

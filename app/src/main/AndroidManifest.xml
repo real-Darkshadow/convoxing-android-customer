@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
+
+    <queries>
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+    </queries>
 
     <application
         android:name=".ConvoxingApp"
@@ -15,23 +25,50 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Convoxing"
         android:usesCleartextTraffic="true"
+        tools:replace="android:theme"
         tools:targetApi="31">
         <activity
-            android:name=".ui.auth.activity.AuthActivity"
-            android:exported="true">
+            android:name=".ui.splash.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.chat.activity.ChatActivity"
+            android:exported="false"
+            android:launchMode="standard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.auth.activity.AuthActivity"
+            android:exported="true"
+            android:launchMode="standard"
+            android:screenOrientation="portrait" />
+
+
+        <activity
             android:name=".ui.home.activity.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait">
+
+            <!--            <intent-filter android:autoVerify="true">-->
+            <!--                <action android:name="android.intent.action.VIEW" />-->
+
+            <!--                <category android:name="android.intent.category.DEFAULT" />-->
+            <!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+            <!--                <data android:scheme="https" />-->
+            <!--                <data android:host="www.convoxing.com" />-->
+            <!--            </intent-filter>-->
+
+            <nav-graph android:value="@navigation/main_nav" />
+
         </activity>
     </application>
+
 
 </manifest>

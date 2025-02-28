@@ -1,6 +1,5 @@
 package com.convoxing.convoxing_customer.di
 
-import com.amplitude.android.Amplitude
 import com.convoxing.convoxing_customer.data.repository.auth.AuthRepository
 import com.convoxing.convoxing_customer.data.repository.auth.AuthRepositoryInterface
 import com.convoxing.convoxing_customer.data.repository.home.MainRepository
@@ -11,6 +10,8 @@ import com.convoxing.convoxing_customer.data.repository.installreferrer.InstallR
 import com.convoxing.convoxing_customer.ConvoxingApp
 import com.convoxing.convoxing_customer.data.local.AppPrefManager
 import com.convoxing.convoxing_customer.data.remote.api.ApiService
+import com.convoxing.convoxing_customer.data.repository.chat.ChatRepository
+import com.convoxing.convoxing_customer.data.repository.chat.ChatRepositoryInterface
 import com.convoxing.convoxing_customer.utils.analytics.AnalyticsHelperUtil
 import com.datadog.android.log.Logger
 import com.google.gson.Gson
@@ -47,6 +48,17 @@ object InteractiveModule {
 
     }
 
+    @Provides
+    @Singleton
+    fun provideChatRepository(
+        context: ConvoxingApp,
+        appPrefManager: AppPrefManager,
+        @Named("api_client")
+        api: Retrofit,
+    ): ChatRepositoryInterface {
+        val apiService = api.create(ApiService::class.java)
+        return ChatRepository(context, appPrefManager, apiService)
+    }
 
 
     @Provides
@@ -58,7 +70,7 @@ object InteractiveModule {
         appPrefManager: AppPrefManager,
         @Named("device_id")
         deviceId: String,
-        logger: Logger,
+//        logger: Logger,
     ): MainRepositoryInterface {
         val apiInterface = api.create(ApiService::class.java)
         return MainRepository(
@@ -66,7 +78,6 @@ object InteractiveModule {
             apiInterface,
             appPrefManager,
             deviceId,
-            logger
         )
     }
 
@@ -97,18 +108,15 @@ object InteractiveModule {
     fun provideInstallReferrerRepository(
         context: ConvoxingApp,
         appPrefManager: AppPrefManager,
-        amplitude: Amplitude,
         analyticsHelperUtil: AnalyticsHelperUtil,
         encryptionHelper: EncryptionHelper,
-        loggger: Logger,
+//        loggger: Logger,
     ): InstallReferrerRepositoryInterface {
         return InstallReferrerRepository(
             context,
             appPrefManager,
-            amplitude,
             analyticsHelperUtil,
             encryptionHelper,
-            loggger
         )
     }
 }

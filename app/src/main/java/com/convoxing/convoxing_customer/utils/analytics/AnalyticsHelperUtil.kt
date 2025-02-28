@@ -1,9 +1,9 @@
 package com.convoxing.convoxing_customer.utils.analytics
 
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import com.amplitude.android.Amplitude
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.posthog.PostHog
 import javax.inject.Inject
 
 class AnalyticsHelperUtil @Inject constructor(
@@ -11,8 +11,7 @@ class AnalyticsHelperUtil @Inject constructor(
     private val firebaseAnalytics: FirebaseAnalytics,
 ) {
 
-    fun logEvent(eventName: String, payload: Map<String, Any?>) {
-
+    fun logEvent(eventName: String, payload: Map<String, Any>) {
         val bundle = Bundle().apply {
             for ((key, value) in payload) {
                 when (value) {
@@ -22,17 +21,24 @@ class AnalyticsHelperUtil @Inject constructor(
                 }
             }
         }
-
         firebaseAnalytics.logEvent(
             eventName,
             bundle
         )
-
+        PostHog.capture(event = eventName, properties = payload)
         amplitude.track(
             eventName,
             payload
         )
+    }
 
+
+    fun trackScreenView(screenName: String) {
+        amplitude.track(
+            screenName,
+            mutableMapOf("isViewed" to true)
+        )
+        PostHog.screen(screenName, mutableMapOf("isViewed" to true))
     }
 
     fun logAmplitudeEvent(eventName: String, payload: MutableMap<String, Any>) {
@@ -42,15 +48,12 @@ class AnalyticsHelperUtil @Inject constructor(
         )
     }
 
-
-    fun trackScreenView(screenName: String) {
-        amplitude.track(screenName, mutableMapOf("isViewed" to true))
-        firebaseAnalytics.logEvent(screenName, bundleOf("isViewed" to true))
-    }
-
     fun trackButtonClick(buttonName: String) {
-        firebaseAnalytics.logEvent(buttonName, bundleOf("is_click" to true))
-        amplitude.track(buttonName, mutableMapOf("is_click" to true))
+        amplitude.track(
+            buttonName,
+            mutableMapOf("is_click" to true)
+        )
+        PostHog.capture(buttonName, properties = mutableMapOf("is_click" to true))
     }
 
 

@@ -15,6 +15,7 @@ data class Scenario(
     val longName: String,
     @SerializedName("short_name")
     val shortName: String,
+    val imageUrl: String
 )
 
 data class StarsInfo(

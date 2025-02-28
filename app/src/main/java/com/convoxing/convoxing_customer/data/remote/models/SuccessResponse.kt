@@ -1,11 +1,17 @@
 package com.convoxing.convoxing_customer.data.remote.models
 
+import com.convoxing.convoxing_customer.data.remote.models.summary.Summary
 import com.google.gson.annotations.SerializedName
 
 data class SuccessResponse(
     val message: String,
     val statusCode: Int,
     val user: User? = null,
+    val status: String,
+    val activeSubscription: ActiveSubscription,
+    @SerializedName("summary")
+    val chatSummary: Summary,
+
 
 //
 //    @SerializedName("plansData")
@@ -29,8 +35,10 @@ data class SuccessResponse(
 //    val currentsubscription: ArrayList<Subscription>,
 
 
-    @SerializedName("frequencies")
-    val frequencies: ArrayList<String>? = null,
+    @SerializedName("corrections")
+    val grammarAnalysis: ArrayList<GrammarAnalysis>? = null,
+
+    val vocabAnalysis: VocabAnalysis? = null,
 
     @SerializedName("durations")
     val durations: ArrayList<String>? = null,
@@ -41,17 +49,19 @@ data class SuccessResponse(
     @SerializedName("currentStreak")
     val currentStreak: Int = 0,
 
-    @SerializedName("closingBalance")
-    val closingBalance: Number = 0,
-
-    @SerializedName("isWalletExpiry")
-    val walletExpiry: Boolean? = null,
-
-    @SerializedName("expiryDate")
-    val expiryDate: String? = null,
-
     val situations: ArrayList<Scenario>? = null,
     val themes: ArrayList<Scenario>? = null,
+
+    val hint: String? = null,
+
+    val betterAnswer: String? = null,
+
+    val randomVocab: RandomVocab? = null,
+
+    val chatSessions: ArrayList<SessionHistory>? = null,
+    val chatSession: SessionHistory? = null,
+    val sessions: ArrayList<SessionHistory>? = null,
+    val sessionRating: SessionRating? = null,
 
 //    @SerializedName("months")
 //    val months: ArrayList<Month>? = null,

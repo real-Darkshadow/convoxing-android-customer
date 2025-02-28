@@ -44,12 +44,29 @@ class AppPrefManager(context: Context) {
             editor.commit()
         }
 
+    var isUserShowFreeSession: Boolean
+        get() = pref.getBoolean(PREF_FREE_SESSION_POPUP, true)
+        set(value) {
+            editor.putBoolean(PREF_FREE_SESSION_POPUP, value)
+            editor.commit()
+        }
+
+    var isFirstTimeUser: Boolean
+        get() = pref.getBoolean(PREF_FIRST_TIME, true)
+        set(value) {
+            editor.putBoolean(PREF_FIRST_TIME, value)
+            editor.commit()
+        }
+
 
     companion object {
         private const val PREF_NAME = "convoxing-customer-app"
         private const val PREF_IS_USER_LOGGED_ID = "customer-app-is_use_logged_in"
         private const val PREF_USER_DATA = "convoxing_user"
         private const val PREF_REVIEWED = "reviewed"
+        private const val PREF_FREE_SESSION_POPUP = "reviewed"
+        private const val PREF_FIRST_TIME = "first_time"
+
 
     }
 }

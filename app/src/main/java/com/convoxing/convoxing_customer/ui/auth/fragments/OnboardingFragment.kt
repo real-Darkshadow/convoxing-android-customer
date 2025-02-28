@@ -24,6 +24,9 @@ import com.convoxing.convoxing_customer.utils.ExtensionFunctions.showToast
 import com.convoxing.convoxing_customer.utils.ExtensionFunctions.visible
 import com.convoxing.convoxing_customer.utils.Resource
 import com.convoxing.convoxing_customer.utils.Status
+import com.convoxing.convoxing_customer.utils.analytics.AnalyticsHelperUtil
+import com.posthog.PostHog
+import com.revenuecat.purchases.Purchases
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -41,6 +44,8 @@ class OnboardingFragment : Fragment() {
     private lateinit var currentScreen: DetailScreenType
     private lateinit var mAdapter: OnboardingDetailsAdapter
 
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelperUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +63,7 @@ class OnboardingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        analyticsHelper.trackScreenView("Onboarding Screen")
         setupAdapter()
         setListeners()
         setObservers()
@@ -90,7 +96,6 @@ class OnboardingFragment : Fragment() {
             when (currentScreen) {
                 DetailScreenType.AgeScreen -> {
                     viewModel.age = it
-
                     viewModel.currentScreen.postValue(
                         DetailScreenType.EnglishLevelScreen
                     )
@@ -98,7 +103,6 @@ class OnboardingFragment : Fragment() {
 
                 DetailScreenType.EnglishLevelScreen -> {
                     viewModel.englishLevel = it
-
                     viewModel.updateUserDetails()
                 }
 
@@ -131,6 +135,18 @@ class OnboardingFragment : Fragment() {
                 Status.SUCCESS -> {
                     it.data?.user?.let { user ->
                         viewModel.setUserPref(user)
+                        Purchases.sharedInstance.setAttributes(mapOf("age" to user.ageGroup))
+                        Purchases.sharedInstance.setEmail(user.email)
+                        Purchases.sharedInstance.setDisplayName(user.name)
+                        analyticsHelper.logEvent(
+                            "onboarding_complete",
+                            mutableMapOf(
+                                "email" to user.email,
+                                "age_group" to user.ageGroup,
+                                "english_level" to user.englishLevel
+                            )
+                        )
+
                     }
                     appPrefManager.isUserLoggedIn = true
                     startActivity(Intent(requireContext(), MainActivity::class.java))
@@ -166,6 +182,7 @@ class OnboardingFragment : Fragment() {
     }
 
     private fun setupAgeScreen() {
+        analyticsHelper.trackScreenView("Age Screen")
         binding.apply {
             nameContainer.gone()
             animationView.gone()
@@ -179,6 +196,7 @@ class OnboardingFragment : Fragment() {
     }
 
     private fun setupEnglishLevelScreen() {
+        analyticsHelper.trackScreenView("English Level Screen")
         binding.apply {
             nameContainer.gone()
             animationView.gone()
@@ -193,6 +211,7 @@ class OnboardingFragment : Fragment() {
     }
 
     private fun setupCraftingScreen() {
+        analyticsHelper.trackScreenView("Crafting Experience Screen")
         binding.apply {
             nameContainer.gone()
             recyclerView.gone()

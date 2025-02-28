@@ -9,6 +9,8 @@ import java.util.TimeZone
 interface AuthRepositoryInterface {
     fun setUserData(user: User)
 
+    fun logout()
+
 
     suspend fun socialLogin(
         email: String,

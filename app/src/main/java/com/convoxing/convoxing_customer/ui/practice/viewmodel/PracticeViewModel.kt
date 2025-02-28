@@ -17,6 +17,8 @@ class PracticeViewModel @Inject constructor(
 
     var situationsResult = MutableLiveData<Resource<SuccessResponse>>(Resource.idle())
     var rolePlayResult = MutableLiveData<Resource<SuccessResponse>>(Resource.idle())
+    var sessionHistoryResult = MutableLiveData<Resource<SuccessResponse>>(Resource.idle())
+
 
     fun getSituations() {
         viewModelScope.launch {
@@ -30,6 +32,14 @@ class PracticeViewModel @Inject constructor(
             rolePlayResult.value = Resource.loading()
             rolePlayResult.value = mainRepository.getRolePlays()
         }
+    }
+
+    fun getSessionHistory() {
+        viewModelScope.launch {
+            sessionHistoryResult.value = Resource.loading()
+            sessionHistoryResult.value = mainRepository.getSessionHistory()
+        }
+
     }
 
 

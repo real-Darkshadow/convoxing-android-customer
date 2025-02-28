@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:elevation="12dp"
+    android:background="@drawable/dialog_background"
+    android:padding="24dp">
+
+    <ImageView
+        android:id="@+id/ivCelebration"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:contentDescription="Celebration image"
+        android:scaleType="fitCenter"
+        android:src="@drawable/smiling_cat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Congratulations!"
+        android:textColor="@color/secondary"
+        android:textSize="24sp"
+        android:fontFamily="@font/gilroy_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivCelebration" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:fontFamily="@font/gilroy_medium"
+        android:lineSpacingExtra="4dp"
+        android:text="You've got 3 free sessions available!\nStart learning now!"
+        android:textColor="@color/text_gray"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    <TextView
+        android:id="@+id/btnClaim"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/secondary_button_bg_14"
+        android:gravity="center"
+        android:paddingVertical="12dp"
+        android:fontFamily="@font/gilroy_semibold"
+        android:text="Continue"
+        android:textAllCaps="false"
+        android:textColor="@color/secondary"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvMessage" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

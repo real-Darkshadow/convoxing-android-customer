@@ -62,10 +62,10 @@ class AuthRepository @Inject constructor(
         appPrefManager.user = user
     }
 
-//
-//    override fun logout() {
-//        appPrefManager.logoutUser()
-//    }
+
+    override fun logout() {
+        appPrefManager.logoutUser()
+    }
 
 
     override suspend fun socialLogin(

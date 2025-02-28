@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chat_nav"
+    app:startDestination="@id/chatFragment">
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.convoxing.convoxing_customer.ui.chat.fragments.ChatFragment"
+        android:label="ChatFragment" />
+    <fragment
+        android:id="@+id/analysisGrammerFragment"
+        android:name="com.convoxing.convoxing_customer.ui.analysis.fragments.AnalysisGrammarFragment"
+        android:label="AnalysisGrammerFragment" />
+    <fragment
+        android:id="@+id/analysisVocabFragment"
+        android:name="com.convoxing.convoxing_customer.ui.analysis.fragments.AnalysisVocabFragment"
+        android:label="AnalysisVocabFragment" />
+    <fragment
+        android:id="@+id/analysisTabViewFragment"
+        android:name="com.convoxing.convoxing_customer.ui.analysis.fragments.AnalysisTabViewFragment"
+        android:label="AnalysisTabViewFragment" />
+    <fragment
+        android:id="@+id/chatSummary"
+        android:name="com.convoxing.convoxing_customer.ui.call.fragments.CallSummaryFragment"
+        android:label="CallSummaryFragment" />
+</navigation>

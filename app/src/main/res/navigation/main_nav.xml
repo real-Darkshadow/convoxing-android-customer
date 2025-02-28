@@ -30,4 +30,24 @@
         android:name="com.convoxing.convoxing_customer.ui.league.fragments.LeagueFragment"
         android:label="fragment_league"
         tools:layout="@layout/fragment_league" />
+    <fragment
+        android:id="@+id/progressFragment"
+        android:name="com.convoxing.convoxing_customer.ui.progress.fragments.ProgressFragment"
+        android:label="ProgressFragment" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.convoxing.convoxing_customer.ui.progress.fragments.SettingsFragment"
+        android:label="SettingsFragment" />
+    <fragment
+        android:id="@+id/callFragment"
+        android:name="com.convoxing.convoxing_customer.ui.call.fragments.CallFragment"
+        android:label="CallFragment" />
+    <fragment
+        android:id="@+id/callPracticeFragment"
+        android:name="com.convoxing.convoxing_customer.ui.call.fragments.CallPracticeFragment"
+        android:label="CallPracticeFragment" />
+    <fragment
+        android:id="@+id/callSummaryFragment"
+        android:name="com.convoxing.convoxing_customer.ui.call.fragments.CallSummaryFragment"
+        android:label="CallSummaryFragment" />
 </navigation>

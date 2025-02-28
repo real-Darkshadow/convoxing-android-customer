@@ -1,23 +1,16 @@
 package com.convoxing.convoxing_customer.di
 
-import com.amplitude.android.Amplitude
 import com.amplitude.android.Configuration
 import com.convoxing.convoxing_customer.BuildConfig
 import com.convoxing.convoxing_customer.utils.analytics.AnalyticsHelperUtil
 import com.convoxing.convoxing_customer.ConvoxingApp
-import com.convoxing.convoxing_customer.data.local.AppPrefManager
-import com.datadog.android.Datadog
-import com.datadog.android.log.Logger
-import com.datadog.android.log.Logs
-import com.datadog.android.log.LogsConfiguration
-import com.datadog.android.privacy.TrackingConsent
 import com.google.firebase.analytics.FirebaseAnalytics
-import com.google.firebase.inappmessaging.internal.injection.qualifiers.Analytics
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
+import com.amplitude.android.Amplitude
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -53,37 +46,37 @@ object EngagementModule {
     }
 
 
-    @Provides
-    @Singleton
-    fun providesDataDogLogger(context: ConvoxingApp, appPrefManager: AppPrefManager): Logger {
-        val configuration = com.datadog.android.core.configuration.Configuration.Builder(
-            clientToken = BuildConfig.DATADOG_API_KEY,
-            env = BuildConfig.BUILD_TYPE,
-            variant = BuildConfig.VERSION_NAME
-        ).build()
-        Datadog.initialize(context, configuration, TrackingConsent.GRANTED)
-//        try {
-//            Datadog.setUserInfo(
-//                appPrefManager.user.mId,
-//                appPrefManager.user.userName,
-//                appPrefManager.user.email ?: "N/A"
-//            )
+//    @Provides
+//    @Singleton
+//    fun providesDataDogLogger(context: ConvoxingApp, appPrefManager: AppPrefManager): Logger {
+//        val configuration = com.datadog.android.core.configuration.Configuration.Builder(
+//            clientToken = BuildConfig.DATADOG_API_KEY,
+//            env = BuildConfig.BUILD_TYPE,
+//            variant = BuildConfig.VERSION_NAME
+//        ).build()
+//        Datadog.initialize(context, configuration, TrackingConsent.GRANTED)
+////        try {
+////            Datadog.setUserInfo(
+////                appPrefManager.user.mId,
+////                appPrefManager.user.userName,
+////                appPrefManager.user.email ?: "N/A"
+////            )
+////
+////        } catch (_: Exception) {
+////        }
 //
-//        } catch (_: Exception) {
-//        }
-
-        val logger = Logger.Builder()
-            .setNetworkInfoEnabled(true)
-            .setLogcatLogsEnabled(true)
-            .setRemoteSampleRate(100f)
-            .setBundleWithTraceEnabled(true)
-            .setName("P2P")
-            .build()
-        logger.addTag("build_type", BuildConfig.BUILD_TYPE)
-        logger.addAttribute("version_code", BuildConfig.VERSION_CODE)
-        logger.addAttribute("version_name", BuildConfig.VERSION_NAME)
-        return logger
-    }
+//        val logger = Logger.Builder()
+//            .setNetworkInfoEnabled(true)
+//            .setLogcatLogsEnabled(true)
+//            .setRemoteSampleRate(100f)
+//            .setBundleWithTraceEnabled(true)
+//            .setName("P2P")
+//            .build()
+//        logger.addTag("build_type", BuildConfig.BUILD_TYPE)
+//        logger.addAttribute("version_code", BuildConfig.VERSION_CODE)
+//        logger.addAttribute("version_name", BuildConfig.VERSION_NAME)
+//        return logger
+//    }
 
 //    @Provides
 //    @Singleton

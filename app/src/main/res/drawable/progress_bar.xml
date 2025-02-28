@@ -15,7 +15,7 @@
             android:width="76dip"
             android:height="76dip" />
 
-        <solid android:color="@color/primary" />
+        <gradient android:startColor="@color/primary" />
 
     </shape>
 

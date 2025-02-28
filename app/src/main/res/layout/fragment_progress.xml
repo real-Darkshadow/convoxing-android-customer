@@ -1,273 +1,318 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/off_white">
+    android:background="@color/alice_blue">
 
-    <!-- Profile Section -->
-    <LinearLayout
-        android:id="@+id/profile_section"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <!-- Profile Image -->
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/bg_circle" />
-
-        <!-- User Info -->
+        <!-- Profile Section -->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <!-- User Name -->
-            <TextView
-                android:id="@+id/user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gilroy_bold"
-                android:textColor="@color/text_gray"
-                android:textSize="24sp"
-                tools:text="Ak" />
-
-            <!-- Lessons and League -->
-            <TextView
-                android:id="@+id/lessons_and_league"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gilroy_semibold"
-                android:text="0 LESSONS | BLUE LEAGUE"
-                android:textColor="@color/light_gray"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Stats Section -->
-    <LinearLayout
-        android:id="@+id/stats_section"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:weightSum="3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/profile_section">
-
-        <!-- Streak Card -->
-        <LinearLayout
+            android:id="@+id/profile_section"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_weight="1"
-            android:background="@drawable/primary_button_bg_14"
-            android:backgroundTint="@color/light_yellow"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingVertical="62dp">
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/streak_text"
+            <!-- Profile Image -->
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/ic_user" />
+
+            <!-- User Info -->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/gilroy_semibold"
-                android:text="0"
-                android:textColor="@color/primary"
-                android:textSize="20sp" />
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:fontFamily="@font/gilroy_semibold"
-                android:text="STREAK"
-                android:textColor="@color/primary"
-                android:textSize="14sp" />
-        </LinearLayout>
+                <!-- User Name -->
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gilroy_bold"
+                    android:text="Ak"
+                    android:textColor="@color/text_gray"
+                    android:textSize="20sp" />
 
-        <!-- Gems Card -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_weight="1"
-            android:background="@drawable/primary_button_bg_14"
-            android:backgroundTint="@color/lavender_light"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingVertical="62dp">
+                <!-- Lessons and League -->
+                <TextView
+                    android:id="@+id/total_session"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="@font/gilroy_semibold"
+                    android:text="0 SESSIONS"
+                    android:textColor="@color/light_gray"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
-            <TextView
-                android:id="@+id/gems_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gilroy_semibold"
-                android:text="0"
-                android:textColor="#B38AFF"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:fontFamily="@font/gilroy_semibold"
-                android:text="GEMS"
-                android:textColor="#B38AFF"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <!-- Total Stars Card -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/primary_button_bg_14"
-            android:backgroundTint="#ffffff"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingVertical="62dp">
-
-            <TextView
-                android:id="@+id/stars_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/gilroy_semibold"
-                android:text="0"
-                android:textColor="@color/primary_yellow"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:fontFamily="@font/gilroy_semibold"
-                android:text="TOTAL STARS"
-                android:textColor="@color/primary_yellow"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <!-- Vocabulary Section -->
-    <LinearLayout
-        android:id="@+id/vocabulary_section"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/stats_section">
-
-        <!-- Vocabulary Title -->
-        <TextView
-            android:id="@+id/vocabulary_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="My vocabulary"
-            android:textColor="#000000"
-            android:textSize="18sp" />
-
-        <!-- Words Used Progress -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="8dp">
-
-            <TextView
-                android:id="@+id/words_used_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total words I used"
-                android:textColor="#757575"
-                android:textSize="14sp" />
-
-            <ProgressBar
-                android:id="@+id/words_used_progress"
+            <View
                 android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/settings_btn"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:backgroundTint="@color/secondary"
+                android:src="@drawable/ic_setting" />
+
+        </LinearLayout>
+
+        <!-- Stats Section -->
+        <LinearLayout
+            android:id="@+id/stats_section"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:weightSum="3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profile_section">
+
+            <!-- Streak Card -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:background="@drawable/primary_button_bg_14"
+                android:backgroundTint="#ECE1DB"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="62dp">
+
+
+                <TextView
+                    android:id="@+id/streak_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gilroy_semibold"
+                    android:text="20"
+                    android:textColor="#F59A47"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/gilroy_medium"
+                    android:text="STREAK"
+                    android:textColor="#EF9B4A"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Gems Card -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:background="@drawable/primary_button_bg_14"
+                android:backgroundTint="#EEDFF2"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="62dp">
+
+                <TextView
+                    android:id="@+id/gems_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gilroy_semibold"
+                    android:text="02"
+                    android:textColor="#FF8AE8"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/gilroy_medium"
+                    android:text="GEMS"
+                    android:textColor="#F78EE3"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Total Stars Card -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/primary_button_bg_14"
+                android:backgroundTint="#ECE9DA"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="62dp">
+
+                <TextView
+                    android:id="@+id/stars_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gilroy_semibold"
+                    android:text="330"
+                    android:textColor="#F4CB44"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/gilroy_medium"
+                    android:text="TOTAL STARS"
+                    android:textColor="#F0CC51"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Vocabulary Section -->
+        <LinearLayout
+            android:id="@+id/vocabulary_section"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/stats_section">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#D1D5DB" />
+            <!-- Vocabulary Title -->
+            <TextView
+                android:id="@+id/vocabulary_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/gilroy_semibold"
+                android:text="My vocabulary"
+                android:textColor="@color/secondary"
+                android:textSize="16sp" />
+
+            <!-- Words Used Progress -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:max="100"
-                android:progress="0" />
+                android:elevation="2dp"
+                app:cardCornerRadius="18dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/words_used_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gilroy_semibold"
+                        android:text="Total words I used"
+                        android:textColor="@color/secondary"
+                        android:textSize="14sp" />
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/barChart"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:layout_marginTop="16dp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="#D1D5DB" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/feature_request_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:cardCornerRadius="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/materialCardView"
+                app:strokeWidth="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/linearLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/imageView"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/gilroy_semibold"
+                            android:text="Have a Feature Idea? Let Us Know!"
+                            android:textColor="@color/secondary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginEnd="16dp"
+                            android:fontFamily="@font/gilroy_regular"
+                            android:lineSpacingExtra="4dp"
+                            android:text="Your feedback matters! Help us improve Convoxing by suggesting new features that can enhance your AI-powered English learning experience."
+                            android:textColor="@color/text_gray"
+                            android:textSize="12sp" />
+
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:src="@drawable/ic_right_arrow_circle"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tint="@color/text_gray" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
         </LinearLayout>
 
-        <!-- Weekly Data -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="4">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Dec 18-24"
-                android:textColor="#757575"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Dec 24-30"
-                android:textColor="#757575"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Dec 30-Jan 5"
-                android:textColor="#757575"
-                android:textSize="12sp" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Jan 6-12"
-                android:textColor="#757575"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Daily Words Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/daily_words_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="Achievements"
-                android:textColor="#000000"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

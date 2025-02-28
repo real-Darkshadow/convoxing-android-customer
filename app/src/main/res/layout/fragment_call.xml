@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/callLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alice_blue"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <!-- Loading screen layout -->
+    <LinearLayout
+        android:id="@+id/loading_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+
+        <ImageView
+            android:id="@+id/loading_image"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:src="@drawable/ic_check_phone" />
+
+        <TextView
+            android:id="@+id/connection_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/gilroy_semibold"
+            android:gravity="center"
+            android:text="Connecting your call..."
+            android:textColor="@color/secondary"
+            android:textSize="24sp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- End call button with modern design -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/end_call_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="48dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="14dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_circle"
+                    android:backgroundTint="@color/nc_darkRed"
+                    android:padding="10dp"
+                    app:srcCompat="@drawable/ic_call_end_white_24px"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:fontFamily="@font/gilroy_bold"
+                    android:gravity="center"
+                    android:text="End Call"
+                    android:textColor="@color/secondary"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- Main call layout with avatar added -->
+    <RelativeLayout
+        android:id="@+id/main_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/linearWrapperLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/conversationRelativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+                <!-- Call info section with avatar -->
+                <LinearLayout
+                    android:id="@+id/callInfosLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="48dp"
+                    android:animateLayoutChanges="true"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/callModeTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gilroy_semibold"
+                        android:text="Voice Call"
+                        android:textAlignment="center"
+                        android:textColor="@color/secondary"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/call_duration"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/gilroy_semibold"
+                        android:textAlignment="center"
+                        android:textColor="@color/text_gray"
+                        android:textSize="16sp"
+                        tools:text="00:22" />
+
+                    <!-- Avatar container with elevation and border -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/avatar_container"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="24dp"
+                        app:cardCornerRadius="100dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/white"
+                        app:strokeWidth="3dp">
+
+                        <ImageView
+                            android:id="@+id/avatar_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_eva_hi" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:id="@+id/callConversationNameTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:ellipsize="marquee"
+                        android:fontFamily="@font/gilroy_semibold"
+                        android:textAlignment="center"
+                        android:textColor="@color/secondary"
+                        android:textSize="28sp"
+                        tools:text="Eva" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/verticalCenter"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true" />
+
+                <include
+                    android:id="@+id/callStates"
+                    layout="@layout/call_states"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/verticalCenter"
+                    android:layout_marginTop="-50dp"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <!-- Bottom controls section with captions and buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/linearWrapperLayout"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <!-- Caption text view with modern card design -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="36dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp">
+
+                <TextView
+                    android:id="@+id/caption_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/gilroy_regular"
+                    android:minWidth="320dp"
+                    android:padding="12dp"
+                    android:text=""
+                    android:textColor="@color/text_gray"
+                    android:textSize="16sp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Call controls with modern design -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="60dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="14dp">
+
+                <com.google.android.flexbox.FlexboxLayout
+                    android:id="@+id/callControls"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:gravity="center"
+                    android:minHeight="@dimen/call_controls_height"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    app:alignItems="center"
+                    app:flexWrap="wrap"
+                    app:justifyContent="center">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/microphoneButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        app:backgroundTint="@color/call_buttons_background"
+                        app:borderWidth="0dp"
+                        app:elevation="4dp"
+                        app:fabCustomSize="56dp"
+                        app:shapeAppearance="@style/fab_3_rounded"
+                        app:srcCompat="@drawable/ic_mic_white_24px"
+                        app:tint="@color/white" />
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/hangupButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        app:backgroundTint="@color/nc_darkRed"
+                        app:borderWidth="0dp"
+                        app:elevation="4dp"
+                        app:fabCustomSize="56dp"
+                        app:shapeAppearance="@style/fab_3_rounded"
+                        app:srcCompat="@drawable/ic_call_end_white_24px"
+                        app:tint="@color/white" />
+                </com.google.android.flexbox.FlexboxLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

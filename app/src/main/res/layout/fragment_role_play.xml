@@ -7,7 +7,6 @@
     android:background="@color/off_white"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:paddingHorizontal="16dp"
     tools:context=".ui.practice.fragments.ThemesFragment">
 
     <androidx.recyclerview.widget.RecyclerView

@@ -1,6 +1,5 @@
 package com.convoxing.convoxing_customer.data.repository.installreferrer
 
-import com.amplitude.android.Amplitude
 import com.convoxing.convoxing_customer.ConvoxingApp
 import com.convoxing.convoxing_customer.data.local.AppPrefManager
 import com.convoxing.convoxing_customer.utils.analytics.AnalyticsHelperUtil
@@ -10,10 +9,9 @@ import javax.inject.Inject
 class InstallReferrerRepository @Inject constructor(
     private val context: ConvoxingApp,
     private val appPrefManager: AppPrefManager,
-    private val amplitude: Amplitude,
     private val analyticsHelperUtil: AnalyticsHelperUtil,
     private val encryptionHelper: EncryptionHelper,
-    private val logger: Logger,
+//    private val logger: Logger,
 ) : InstallReferrerRepositoryInterface {
 
 //    private val _referrerResult = MutableStateFlow<ReferrerResult?>(null)

@@ -10,6 +10,7 @@ import com.convoxing.convoxing_customer.data.repository.auth.AuthRepositoryInter
 import com.convoxing.convoxing_customer.utils.Resource
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
+import com.revenuecat.purchases.Purchases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -73,8 +74,7 @@ class AuthViewModel @Inject constructor(
                 }
                 val tokenLocal = task.result
                 fcmToken.value = tokenLocal.toString()
-
-
+                Purchases.sharedInstance.setPushToken(tokenLocal.toString())
             })
     }
 

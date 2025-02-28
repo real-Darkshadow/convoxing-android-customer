@@ -130,6 +130,7 @@
             android:background="@drawable/secondary_button_bg"
             android:minHeight="48dp"
             android:paddingVertical="10dp"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/terms_condition"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

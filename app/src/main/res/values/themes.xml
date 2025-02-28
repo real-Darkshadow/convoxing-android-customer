@@ -3,6 +3,10 @@
     <style name="Base.Theme.Convoxing" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimaryDark">@color/off_white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="TabLayoutStyle" parent="Widget.Design.TabLayout">
@@ -13,7 +17,6 @@
         <item name="tabBackground">@drawable/tab_selector</item>
         <item name="tabIndicator">@null</item>
         <item name="android:background">@drawable/tab_layout_bg</item>
-        <!--        <item name="tabTextAppearance">@style/TabTextAppearance</item>-->
     </style>
 
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
@@ -22,6 +25,30 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="BottomSheetDialogWhite" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapperWhite</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
 
+    <style name="bottomSheetStyleWrapperWhite" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_round_white</item>
+    </style>
     <style name="Theme.Convoxing" parent="Base.Theme.Convoxing" />
+
+
+    <style name="CustomShapeAppearanceBottomSheetDialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
+    </style>
+
+
+    <style name="fab_3_rounded">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

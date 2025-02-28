@@ -6,12 +6,11 @@
     android:layout_height="match_parent"
     android:background="@color/off_white"
     tools:context=".ui.home.fragments.HomeFragment">
-
     <LinearLayout
         android:id="@+id/linearLayout4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/sea_shell"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
         android:paddingTop="24dp"
@@ -50,6 +49,7 @@
             android:text="1"
             android:textColor="#B38AFF"
             android:textSize="18sp"
+            android:visibility="gone"
             app:drawableStartCompat="@drawable/ic_diamond_24_png" />
 
         <View
@@ -60,7 +60,9 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/pro_button"
             android:layout_gravity="bottom"
+            android:visibility="gone"
             android:src="@drawable/ic_crown_36"
             app:tint="@color/primary" />
 
@@ -91,7 +93,7 @@
                 android:paddingTop="24dp"
                 android:paddingBottom="8dp"
                 android:text="Good Morning, User! \nReady to learn? 🌞"
-                android:textColor="@color/text_gray"
+                android:textColor="@color/secondary"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +106,7 @@
                 android:layout_marginTop="12dp"
                 android:clipToPadding="false"
                 app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"
+                app:cardElevation="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_greeting"
@@ -127,7 +129,7 @@
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/gilroy_semibold"
                         android:text="Today’s Lesson"
-                        android:textColor="@color/text_gray"
+                        android:textColor="@color/secondary"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -139,16 +141,16 @@
                         android:layout_marginTop="8dp"
                         android:fontFamily="@font/gilroy_bold"
                         android:text="Lesson Time"
-                        android:textColor="@color/text_gray"
+                        android:textColor="@color/secondary"
                         android:textSize="22sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/text57" />
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/sessions_left_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bordered_card_white"
+                        android:background="@drawable/bordered_card_yellow"
                         android:drawablePadding="4dp"
                         android:gravity="center"
                         android:paddingHorizontal="8dp"
@@ -157,7 +159,7 @@
                         android:textColor="@color/text_gray"
                         android:textSize="14sp"
                         app:drawableStartCompat="@drawable/ic_lock_24"
-                        app:drawableTint="@color/primary_yellow"
+                        app:drawableTint="@color/primary"
                         app:layout_constraintBottom_toBottomOf="@+id/text56"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/text56" />
@@ -187,17 +189,17 @@
                         app:layout_constraintTop_toBottomOf="@+id/linearProgressIndicator" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/start_lesson_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="16dp"
                         android:background="@drawable/secondary_button_bg_14"
-                        android:elevation="8dp"
+                        android:elevation="6dp"
                         android:fontFamily="@font/gilroy_semibold"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
                         android:text="Start lesson"
-                        android:textColor="@color/text_gray"
+                        android:textColor="@color/secondary"
                         android:textSize="18sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -212,9 +214,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:clickable="true"
                 android:clipToPadding="false"
                 app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"
+                app:cardElevation="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/materialCardView"
@@ -223,7 +226,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#f6f1fd"
+                    android:background="@color/white"
                     android:padding="16dp">
 
                     <LinearLayout
@@ -241,7 +244,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/gilroy_semibold"
                             android:text="Role-playing Practice"
-                            android:textColor="@color/text_gray"
+                            android:textColor="@color/secondary"
                             android:textSize="18sp" />
 
                         <TextView
@@ -276,9 +279,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:id="@+id/random_vocab_card"
                 android:layout_marginBottom="36dp"
                 app:cardCornerRadius="18dp"
-                app:cardElevation="4dp"
+                app:cardElevation="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -297,7 +301,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/gilroy_semibold"
                         android:text="Today's Word"
-                        android:textColor="@color/text_gray"
+                        android:textColor="@color/secondary"
                         android:textSize="18sp" />
 
                     <TextView
@@ -309,7 +313,7 @@
                         android:fontFamily="@font/gilroy_semibold"
                         android:gravity="center"
                         android:text="penetrable"
-                        android:textColor="@color/text_gray"
+                        android:textColor="@color/secondary"
                         android:textSize="24sp" />
 
                     <TextView
@@ -387,21 +391,44 @@
             </com.google.android.material.card.MaterialCardView>
 
 
-            <!--            <com.yuyakaido.android.cardstackview.CardStackView-->
-            <!--                android:id="@+id/card_stack_view"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                tools:listitem="@layout/item_vocab_card_stack"-->
-            <!--                tools:itemCount="3"-->
-            <!--                android:layout_marginHorizontal="16dp"-->
-            <!--                android:layout_marginTop="16dp"-->
-            <!--                android:clipToPadding="false"-->
-            <!--                android:padding="4dp"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@id/role_playing_card" />-->
+            <!--                        <com.yuyakaido.android.cardstackview.CardStackView-->
+            <!--                            android:id="@+id/card_stack_view"-->
+            <!--                            android:layout_width="match_parent"-->
+            <!--                            android:layout_height="match_parent"-->
+            <!--                            tools:listitem="@layout/item_vocab_card_stack"-->
+            <!--                            tools:itemCount="3"-->
+            <!--                            android:layout_marginHorizontal="16dp"-->
+            <!--                            android:layout_marginTop="16dp"-->
+            <!--                            android:clipToPadding="false"-->
+            <!--                            android:padding="4dp"-->
+            <!--                            app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                            app:layout_constraintStart_toStartOf="parent"-->
+            <!--                            app:layout_constraintTop_toBottomOf="@id/role_playing_card" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/loading_layout"
+        android:background="@color/off_white"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:elevation="100dp"
+            android:indeterminateDrawable="@drawable/progress_bar"
+            android:visibility="visible" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

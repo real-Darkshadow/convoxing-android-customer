@@ -8,6 +8,12 @@ import com.convoxing.convoxing_customer.ui.practice.fragments.ThemesFragment
 class PracticeFragPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int = 2
 
+    private val tabTitles = arrayOf("Themes", "Role-Play")
+
+    fun getPageTitle(position: Int): CharSequence {
+        return tabTitles[position]
+    }
+
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> ThemesFragment()

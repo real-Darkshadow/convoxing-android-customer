@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
     alias(libs.plugins.google.gms.google.services)
     alias(libs.plugins.google.firebase.crashlytics)
     alias(libs.plugins.google.firebase.firebase.perf)
@@ -18,8 +19,8 @@ android {
         applicationId = "com.convoxing.convoxing_customer"
         minSdk = 28
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 4
+        versionName = "1.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -80,6 +81,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.flexbox)
 
     /*GOOGLE-PLAY CORE*/
     implementation(libs.review.ktx)
@@ -116,17 +119,47 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.logging.interceptor)
 
+    /*REVENUE CAT*/
+    implementation(libs.purchases)
+    implementation(libs.purchases.ui)
+
     /*DATADOG*/
     implementation(libs.dd.sdk.android.logs)
 
     /* AMPLITUDE*/
     implementation(libs.analytics.android)
 
+    /*POST HOG*/
+    implementation("com.posthog:posthog-android:3.+")
+
     /* LOTTIE*/
     implementation(libs.lottie)
 
     /* CARD STACK*/
     implementation(libs.cardstackview)
+
+    /* WAVEFORM SEEKBAR*/
+    implementation(libs.waveformseekbar)
+
+    /* GLIDE*/
+    implementation(libs.glide)
+    kapt(libs.compiler)
+
+    /* CHARTS*/
+    implementation(libs.mpandroidchart)
+
+    /* ONE SIGNAL*/
+    implementation(libs.onesignal)
+
+    /* TAP TARGET*/
+    implementation(libs.taptargetview)
+
+    /*VAPI */
+    implementation(libs.vapi)
+
+
+//noinspection UseTomlInstead
+    implementation("com.github.lincollincol:amplituda:2.2.2")
 
 
 }

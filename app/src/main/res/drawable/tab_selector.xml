@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- When the tab is selected, apply the background color -->
-    <item android:bottom="6dp" android:left="6dp" android:right="6dp" android:state_selected="true" android:top="6dp">
-
-        <shape android:shape="rectangle">
-            <solid android:color="@color/light_yellow" />
-            <corners android:radius="6dp" />
-            <padding android:bottom="6dp" android:left="12dp" android:right="12dp" android:top="6dp" />
-        </shape>
+    <!-- Selected state -->
+    <item android:state_selected="true">
+        <inset android:insetLeft="3dp" android:insetRight="3dp" android:insetTop="3dp" android:insetBottom="3dp">
+            <shape android:shape="rectangle">
+                <solid android:color="@color/white" />
+                <corners android:radius="14dp" />
+            </shape>
+        </inset>
     </item>
 
-    <!-- When the tab is not selected, no background color -->
-    <item android:bottom="6dp" android:left="6dp" android:right="6dp" android:state_selected="false" android:top="6dp">
-        <shape android:shape="rectangle">
-            <solid android:color="@android:color/transparent" />  <!-- No background when unselected -->
-            <corners android:radius="6dp" />
-            <padding android:bottom="6dp" android:left="12dp" android:right="12dp" android:top="6dp" />
-        </shape>
+    <!-- Unselected state -->
+    <item android:state_selected="false">
+        <inset android:insetLeft="3dp" android:insetRight="3dp" android:insetTop="3dp" android:insetBottom="3dp">
+            <shape android:shape="rectangle">
+                <solid android:color="@android:color/transparent" />
+                <corners android:radius="14dp" />
+            </shape>
+        </inset>
     </item>
 
 </selector>
