@@ -47,7 +47,8 @@ interface ChatRepositoryInterface {
         topicName: String,
         category: String,
         sessionId: String,
-        message: String
+        message: String,
+        isOverview: Boolean
     ): Resource<ChatMessage>
 
     suspend fun getSessionById(

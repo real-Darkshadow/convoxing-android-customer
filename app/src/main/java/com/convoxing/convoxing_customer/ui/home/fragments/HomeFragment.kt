@@ -37,6 +37,8 @@ import com.google.android.gms.tasks.Task
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.onesignal.OneSignal
+import com.revenuecat.purchases.Purchases
+import com.revenuecat.purchases.awaitLogIn
 import com.revenuecat.purchases.ui.revenuecatui.ExperimentalPreviewRevenueCatUIPurchasesAPI
 import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
 import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
@@ -89,12 +91,6 @@ class HomeFragment : Fragment(), TextToSpeech.OnInitListener, PaywallResultHandl
         textToSpeech = TextToSpeech(requireContext(), this)
         setListeners()
         setObservers()
-
-
-
-        if (!appPrefManager.isFirstTimeUser && !OneSignal.Notifications.permission) {
-            showNotificationPermissionDialog(requireContext())
-        }
     }
 
     private fun launchPaywallActivity() {
@@ -181,6 +177,11 @@ class HomeFragment : Fragment(), TextToSpeech.OnInitListener, PaywallResultHandl
             isChatExit = isChat
         ) { id, rating, comment, reasonsForLeaving ->
             viewModel.submitSessionRating(id, rating.toInt(), comment ?: "")
+            if (rating > 3) {
+                if (!OneSignal.Notifications.permission) {
+                    showNotificationPermissionDialog(requireContext())
+                }
+            }
             if (rating >= 4) {
                 launchInAppReview()
             }
@@ -245,10 +246,14 @@ class HomeFragment : Fragment(), TextToSpeech.OnInitListener, PaywallResultHandl
                     mutableMapOf("is_shown" to true)
                 )
                 appPrefManager.isUserShowFreeSession = false
+                if (!OneSignal.Notifications.permission) {
+                    showNotificationPermissionDialog(requireContext())
+                }
                 if (viewModel.user.isNewUser && appPrefManager.isFirstTimeUser) {
                     showStartLessonTapTarget()
                     appPrefManager.isFirstTimeUser = false
                 }
+
                 // Reset the dialog variable when dismissed
                 freeSessionDialog = null
             }
@@ -354,7 +359,8 @@ class HomeFragment : Fragment(), TextToSpeech.OnInitListener, PaywallResultHandl
                     binding.loadingLayout.background =
                         ColorDrawable(requireContext().getColor(R.color.off_white))
                     response?.data?.user?.let { user ->
-                        binding.loadingLayout.gone()
+
+                    binding.loadingLayout.gone()
                         viewModel.setUserData(user)
                         if (user.isFreeSessionsLeft) {
                             binding.sessionsLeftTv.text = "Sessions Left: ${user.freeSessions}"
@@ -462,6 +468,7 @@ class HomeFragment : Fragment(), TextToSpeech.OnInitListener, PaywallResultHandl
                 }
 
                 Status.ERROR -> {
+                    binding.loadingLayout.gone()
                     viewModel.subscriptionStatusResponse.postValue(Resource.idle())
                     showToast("something went wrong")
                 }

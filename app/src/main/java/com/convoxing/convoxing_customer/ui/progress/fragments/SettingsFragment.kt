@@ -180,6 +180,12 @@ class SettingsFragment : Fragment() {
                         "id" to appPrefManager.user.mId
                     )
                 )
+                startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://www.convoxing.com/account-deletion")
+                    )
+                )
             }
 
             3 -> {

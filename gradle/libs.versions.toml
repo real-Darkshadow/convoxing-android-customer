@@ -48,7 +48,7 @@ googleGmsGoogleServices = "4.4.2"
 firebaseCrashlytics = "19.3.0"
 googleFirebaseCrashlytics = "3.0.2"
 googleFirebaseFirebasePerf = "1.4.2"
-vapi = "1.0.7"
+vapi = "2.0.0"
 waveformseekbar = "5.0.2"
 
 

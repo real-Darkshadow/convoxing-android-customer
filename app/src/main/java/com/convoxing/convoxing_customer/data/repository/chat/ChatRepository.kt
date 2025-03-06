@@ -87,7 +87,8 @@ class ChatRepository(
         topicName: String,
         category: String,
         sessionId: String,
-        message: String
+        message: String,
+        isOverview: Boolean
     ): Resource<ChatMessage> {
         val body = HashMap<Any, Any>()
 
@@ -95,6 +96,7 @@ class ChatRepository(
         if (topicId.isNotNullOrBlank()) body["topicId"] = topicId
         if (sessionId.isNotNullOrBlank()) body["sessionId"] = sessionId
         body["category"] = category
+        body["isOverview"] = isOverview
         body["userId"] = appPrefManager.user.mId
         body["message"] = message
         body["totalWords"] = message.trim().split("\\s+".toRegex()).size

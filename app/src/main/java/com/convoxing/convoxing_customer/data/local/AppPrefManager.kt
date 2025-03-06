@@ -31,8 +31,23 @@ class AppPrefManager(context: Context) {
             return gson.fromJson(data, User::class.java)
         }
         set(value) {
+            // Preserve the existing token when updating user
+            val currentUser = try {
+                user  // Try to get current user
+            } catch (e: Exception) {
+                null  // If any error occurs, set to null
+            }
+
+            // Create a modified user object that maintains the token
+            val updatedUser = if (currentUser?.mToken != null && value.mToken == null) {
+                // If new user has null token but current user has token, preserve it
+                value.copy(mToken = currentUser.mToken)
+            } else {
+                value
+            }
+            
             val gson = Gson()
-            val userJson = gson.toJson(value)
+            val userJson = gson.toJson(updatedUser)
             editor.putString(PREF_USER_DATA, userJson)
             editor.commit()
         }

@@ -31,6 +31,10 @@ class AuthRepository @Inject constructor(
         name: String,
         age: String,
         englishLevel: String,
+        goal: String,
+        availability: String,
+        painPoint: String,
+        pastExperience: String
     ): Resource<SuccessResponse> = withContext(Dispatchers.IO) {
         val headerMap = HashMap<String, String>()
         try {
@@ -39,6 +43,10 @@ class AuthRepository @Inject constructor(
             if (name.isNotNullOrBlank()) bodyMap["name"] = name.trim()
             if (age.isNotNullOrBlank()) bodyMap["age"] = age
             if (englishLevel.isNotNullOrBlank()) bodyMap["englishLevel"] = englishLevel
+            if (goal.isNotNullOrBlank()) bodyMap["goal"] = goal
+            if (availability.isNotNullOrBlank()) bodyMap["availability"] = availability
+            if (painPoint.isNotNullOrBlank()) bodyMap["painPoint"] = painPoint
+            if (pastExperience.isNotNullOrBlank()) bodyMap["pastExperience"] = pastExperience
 
             val result = apiService.setupUserProfile(headerMap, bodyMap)
             if (result.statusCode.isHttpSuccessCode()) {

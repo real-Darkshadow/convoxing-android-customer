@@ -24,7 +24,8 @@ class ChatAdapter(
     val context: Context,
     private var messages: ArrayList<ChatMessage>,
     private val onAnalysisClick: (message: ChatMessage, position: Int) -> Unit,
-    private val collapseKeyboard: () -> Unit
+    private val collapseKeyboard: () -> Unit,
+    private val onPlayAudio: (message: ChatMessage) -> Unit = {}
 ) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     private val VIEW_TYPE_AI = 0
@@ -60,12 +61,18 @@ class ChatAdapter(
                 analysisBtn.setOnClickListener {
                     onAnalysisClick(message, position)
                 }
+                playAudioBtn.setOnClickListener {
+                    onPlayAudio(message) // Call the callback with the message
+                }
             }
         }
 
         fun setAiMsg(message: ChatMessage) {
             aiMsgBinding.apply {
                 tvMsg.text = message.content?.trim()
+                playAudioBtn.setOnClickListener {
+                    onPlayAudio(message) // Call the callback with the message
+                }
             }
         }
     }

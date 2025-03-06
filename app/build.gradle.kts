@@ -19,8 +19,8 @@ android {
         applicationId = "com.convoxing.convoxing_customer"
         minSdk = 28
         targetSdk = 35
-        versionCode = 4
-        versionName = "1.1"
+        versionCode = 6
+        versionName = "1.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,8 +42,8 @@ android {
             getProps("${rootDir}/app/config/prod-env.properties").forEach { (key, value) ->
                 buildConfigField("String", key, value)
             }
-            isShrinkResources = false
-            isMinifyEnabled = false
+            isShrinkResources = true
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

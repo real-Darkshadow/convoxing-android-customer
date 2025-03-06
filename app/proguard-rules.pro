@@ -19,3 +19,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Keep credential manager classes
+-keep class androidx.credentials.** { *; }
+-keep class androidx.credentials.*.** { *; }
+-keep class com.google.android.libraries.identity.googleid.** { *; }
+
+# Keep model classes that might be serialized
+-keep class com.convoxing.convoxing_customer.data.remote.models.** { *; }

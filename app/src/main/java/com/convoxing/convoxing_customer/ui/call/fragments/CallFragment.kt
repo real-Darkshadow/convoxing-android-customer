@@ -79,7 +79,7 @@ class CallFragment : Fragment() {
 
         // Initialize Vapi with configuration using the VAPI key from BuildConfig
         val configuration = Vapi.Configuration(publicKey = BuildConfig.VAPI_KEY)
-        vapi = Vapi(requireActivity(), lifecycle, configuration)
+        vapi = Vapi(requireActivity(), configuration)
         lifecycleScope.launch {
             vapi.start(
                 metadata = mutableMapOf("userId" to appPrefManager.user.mId),
@@ -141,6 +141,7 @@ class CallFragment : Fragment() {
                     }
 
                     is Vapi.Event.FunctionCall -> {}
+                    is Vapi.Event.UserInterrupted -> {}
                     is Vapi.Event.SpeechUpdate -> {}
                     is Vapi.Event.Metadata -> {}
                     is Vapi.Event.ConversationUpdate -> {}
@@ -212,7 +213,9 @@ class CallFragment : Fragment() {
             bindingSheet.btnExit.text = "Exit"
             bindingSheet.btnExit.setOnClickListener {
                 bottomSheetDialog.dismiss()
-                vapi.stop()
+                if (::vapi.isInitialized) {
+                    vapi.stop();
+                }
                 findNavController().popBackStack()
             }
         }

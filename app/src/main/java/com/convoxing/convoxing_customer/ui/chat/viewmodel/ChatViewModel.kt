@@ -74,7 +74,8 @@ class ChatViewModel @Inject constructor(
                     topicName = topicName,
                     category = category,
                     sessionId = currentSessionId,
-                    message = message
+                    message = message,
+                    isOverview = isOverview
                 )
             )
         }

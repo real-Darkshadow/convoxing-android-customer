@@ -3,6 +3,7 @@ package com.convoxing.convoxing_customer.ui.auth.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -36,6 +37,7 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.messaging.FirebaseMessaging
 import com.onesignal.OneSignal
 import com.posthog.PostHog
 import com.revenuecat.purchases.Purchases
@@ -164,29 +166,66 @@ class LoginFragment : Fragment() {
 
         val googleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
-            .setServerClientId(BuildConfig.SIGN_IN_CLIENT)
+            .setServerClientId(BuildConfig.SIGN_IN_CLIENT) // Ensure this matches Google Cloud Console
             .setAutoSelectEnabled(true)
             .setNonce(hashedNonce)
             .build()
 
-        val request = GetCredentialRequest.Builder().addCredentialOption(googleIdOption).build()
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
 
         lifecycleScope.launch {
             try {
-                val result =
-                    credentialManager.getCredential(request = request, context = requireActivity())
+                // Add logging to help debug
+                Log.d("GoogleSignIn", "Starting credential request")
+                val result = credentialManager.getCredential(
+                    request = request,
+                    context = requireActivity()
+                )
+                Log.d("GoogleSignIn", "Got credential response: ${result.credential.type}")
                 handleGoogleSignIn(result)
             } catch (e: NoCredentialException) {
+                Log.e("GoogleSignIn", "No credential available", e)
                 requireContext().startActivity(getAddGoogleAccountIntent())
+                showToast("Please add a Google account to continue")
+                analyticsHelper.logEvent(
+                    getString(R.string.analytic_event_login_failed),
+                    mutableMapOf(
+                        "error_type" to "NoCredentialException",
+                        "error_message" to (e.localizedMessage ?: "No message"),
+                        "build_type" to BuildConfig.BUILD_TYPE
+                    )
+                )
             } catch (e: GetCredentialException) {
+                Log.e("GoogleSignIn", "GetCredentialException", e)
                 logError {
                     message = e.message
                     exception = e
                     function = "googleSignIn"
                 }
-
+                showToast("Authentication error: Please try again")
+                analyticsHelper.logEvent(
+                    getString(R.string.analytic_event_login_failed),
+                    mutableMapOf(
+                        "error_type" to "GetCredentialException",
+                        "error_message" to (e.localizedMessage ?: "No message"),
+                        "build_type" to BuildConfig.BUILD_TYPE,
+                        "client_id" to BuildConfig.SIGN_IN_CLIENT
+                    )
+                )
             } catch (e: Exception) {
-                showToast("An error occurred: ${e.localizedMessage}")
+                Log.e("GoogleSignIn", "Unexpected exception", e)
+                showToast("An error occurred: ${e.localizedMessage ?: "Unknown error"}")
+                analyticsHelper.logEvent(
+                    getString(R.string.analytic_event_login_failed),
+                    mutableMapOf(
+                        "error_type" to e.javaClass.simpleName,
+                        "error_message" to (e.localizedMessage ?: "No message"),
+                        "build_type" to BuildConfig.BUILD_TYPE,
+                        "client_id" to BuildConfig.SIGN_IN_CLIENT
+                    )
+                )
             } finally {
                 showProgressBar(false)
             }
@@ -200,50 +239,55 @@ class LoginFragment : Fragment() {
     }
 
     private fun handleGoogleSignIn(result: GetCredentialResponse) {
-        when (val credential = result.credential) {
-            is CustomCredential -> {
-                if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-                    try {
-                        val googleIdTokenCredential =
-                            GoogleIdTokenCredential.createFrom(credential.data)
-                        googleIdTokenCredential.let {
-                            val displayName = it.displayName
-                            val email = it.id
-                            viewModel.socialLogin(
-                                email = email,
-                                name = displayName ?: "",
-                                token = it.idToken,
-                                authType = "google"
+        try {
+            when (val credential = result.credential) {
+                is CustomCredential -> {
+                    if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                        try {
+                            val googleIdTokenCredential =
+                                GoogleIdTokenCredential.createFrom(credential.data)
+                            Log.d(
+                                "GoogleSignIn",
+                                "Token successfully parsed, email: ${googleIdTokenCredential.id}"
+                            )
+
+                            googleIdTokenCredential.let {
+                                val displayName = it.displayName
+                                val email = it.id
+                                val idToken = it.idToken
+
+                                Log.d(
+                                    "GoogleSignIn",
+                                    "Calling social login with email: $email, name: $displayName"
+                                )
+                                viewModel.socialLogin(
+                                    email = email,
+                                    name = displayName ?: "",
+                                    token = idToken,
+                                    authType = "google"
+                                )
+                            }
+                        } catch (e: GoogleIdTokenParsingException) {
+                            Log.e("GoogleSignIn", "Failed to parse Google ID token", e)
+                            showToast("Failed to parse Google ID token. Please try again.")
+                            analyticsHelper.logEvent(
+                                getString(R.string.analytic_event_login_failed),
+                                mutableMapOf(
+                                    "error" to "GoogleIdTokenParsingException",
+                                    "message" to e.toString()
+                                )
                             )
                         }
-
-                    } catch (e: GoogleIdTokenParsingException) {
-                        showToast("Failed to parse Google ID token. Please try again.")
-                        analyticsHelper.logEvent(
-                            getString(R.string.analytic_event_login_failed),
-                            mutableMapOf(
-                                "email" to "NA",
-                                "android" to true,
-                                "error" to e.toString()
-                            )
-                        )
-                    } catch (e: Exception) {
-                        showToast("An error occurred: ${e.localizedMessage}")
-                        analyticsHelper.logEvent(
-                            getString(R.string.analytic_event_login_failed),
-                            mutableMapOf(
-                                "email" to "NA",
-                                "android" to true,
-                                "error" to e.localizedMessage
-                            )
-                        )
+                        return
                     }
-                    return
+                    handleLoginFailure("Unexpected credential type: ${credential.type}")
                 }
-                handleLoginFailure("Unexpected type of credential")
-            }
 
-            else -> handleLoginFailure("Unexpected type of credential")
+                else -> handleLoginFailure("Unexpected credential class: ${credential::class.java.simpleName}")
+            }
+        } catch (e: Exception) {
+            Log.e("GoogleSignIn", "Unexpected exception in handleGoogleSignIn", e)
+            handleLoginFailure("Exception: ${e.message}")
         }
     }
 

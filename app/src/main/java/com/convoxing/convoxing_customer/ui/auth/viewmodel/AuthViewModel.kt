@@ -28,6 +28,10 @@ class AuthViewModel @Inject constructor(
     var englishLevel = ""
     var name = ""
     var age = ""
+    var goal = ""
+    var availability = ""
+    var painPoint = ""  // New field
+    var pastExperience = ""  // New field
 
 
     fun socialLogin(
@@ -59,7 +63,15 @@ class AuthViewModel @Inject constructor(
     fun updateUserDetails() {
         viewModelScope.launch {
             updateUserDataResult.postValue(Resource.loading())
-            updateUserDataResult.value = authRepository.addUserDetails(name, age, englishLevel)
+            updateUserDataResult.value = authRepository.addUserDetails(
+                name,
+                age,
+                englishLevel,
+                goal,
+                availability,
+                painPoint,
+                pastExperience
+            )
         }
     }
 
@@ -83,6 +95,10 @@ class AuthViewModel @Inject constructor(
         data object NameScreen : DetailScreenType()
         data object AgeScreen : DetailScreenType()
         data object EnglishLevelScreen : DetailScreenType()
+        data object PainPointScreen : DetailScreenType()  // New screen type
+        data object GoalScreen : DetailScreenType()
+        data object AvailabilityScreen : DetailScreenType()
+        data object PastExperienceScreen : DetailScreenType()  // New screen type
         data object CraftingExperienceScreen : DetailScreenType()
     }
 }

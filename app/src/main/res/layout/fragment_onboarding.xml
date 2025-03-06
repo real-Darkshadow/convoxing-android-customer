@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:background="@color/background"
     android:paddingHorizontal="24dp"
     android:paddingTop="48dp"
@@ -11,8 +12,10 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,9 +39,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/gilroy_regular"
+            android:fontFamily="@font/gilroy_bold"
             android:textColor="@color/primary_text_dark"
-            android:textSize="24sp"
+            android:textSize="28sp"
             tools:text="What brings you to Speakana?" />
 
         <TextView
@@ -103,13 +106,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/secondary_button_bg"
+        android:background="@drawable/primary_button_bg"
         android:fontFamily="@font/gilroy_bold"
         android:gravity="center"
-        android:paddingVertical="15dp"
+        android:paddingVertical="16dp"
         android:text="Continue"
         android:textColor="@color/primary_text_white"
-        android:textSize="21sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

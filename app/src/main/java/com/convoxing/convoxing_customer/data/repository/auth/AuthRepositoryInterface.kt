@@ -24,7 +24,11 @@ interface AuthRepositoryInterface {
     suspend fun addUserDetails(
         name: String,
         age: String,
-        englishLevel: String
+        englishLevel: String,
+        goal: String,
+        availability: String,
+        painPoint: String,
+        pastExperience: String
     ): Resource<SuccessResponse>
 
 

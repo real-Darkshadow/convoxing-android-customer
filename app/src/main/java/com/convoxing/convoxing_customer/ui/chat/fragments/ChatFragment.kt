@@ -10,6 +10,8 @@ import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
+import android.speech.tts.TextToSpeech
+import android.speech.tts.UtteranceProgressListener
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -20,6 +22,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.addCallback
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -46,6 +49,7 @@ import com.convoxing.convoxing_customer.utils.ExtensionFunctions.visible
 import com.convoxing.convoxing_customer.utils.Resource
 import com.convoxing.convoxing_customer.utils.Status
 import com.convoxing.convoxing_customer.utils.analytics.AnalyticsHelperUtil
+import com.example.yourapp.permission.MicrophonePermissionHandler
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
 import com.masoudss.lib.WaveformSeekBar
@@ -54,6 +58,8 @@ import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallActivityLauncher
 import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResult
 import com.revenuecat.purchases.ui.revenuecatui.activity.PaywallResultHandler
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
+import java.util.UUID
 import javax.inject.Inject
 
 @OptIn(ExperimentalPreviewRevenueCatUIPurchasesAPI::class)
@@ -63,6 +69,13 @@ class ChatFragment : Fragment(), PaywallResultHandler {
     private lateinit var binding: FragmentChatBinding
     private lateinit var adapter: ChatAdapter
     private lateinit var waveformSeekBar: WaveformSeekBar
+    private lateinit var textToSpeech: TextToSpeech
+    private var isTtsReady = false
+    private lateinit var microphonePermissionLauncher: ActivityResultLauncher<String>
+
+    // Track the currently playing message ID and state
+    private var currentlyPlayingId: String? = null
+    private var isPlaying = false
 
     private val viewModel by activityViewModels<ChatViewModel>()
     private val analysisViewModel by activityViewModels<AnalysisViewModel>()
@@ -75,19 +88,6 @@ class ChatFragment : Fragment(), PaywallResultHandler {
     @Inject
     lateinit var analyticsHelperUtil: AnalyticsHelperUtil
 
-    private val requestAudioPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            startSpeechToText()
-        } else {
-            Toast.makeText(
-                requireContext(),
-                "Microphone permission is required to use voice input",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -102,10 +102,16 @@ class ChatFragment : Fragment(), PaywallResultHandler {
         changeStatusBarColor(R.color.white, 1)
         paywallActivityLauncher = PaywallActivityLauncher(this, this)
         if (!viewModel.isHistory) viewModel.getSubscriptionStatus()
+        microphonePermissionLauncher = MicrophonePermissionHandler.registerPermissionLauncher(
+            activity = requireActivity(),
+            onPermissionGranted = {},
+            onPermissionDenied = {}
+        )
         setupAdapter()
         setupListeners()
         setupObservers()
         initSpeechRecognizer()
+        initTextToSpeech()
         requireActivity().onBackPressedDispatcher.addCallback(
             requireActivity(),
             object : OnBackPressedCallback(true) {
@@ -217,6 +223,7 @@ class ChatFragment : Fragment(), PaywallResultHandler {
                         binding.textContainer.visible()
                         viewModel.lastAiPrompt = aiMessage.content.toString()
                         viewModel.currentSessionId = aiMessage.sessionId.toString()
+                        binding.messagesProgressBar.max = aiMessage.maxProgress ?: 20
                         binding.messagesProgressBar.progress = aiMessage.userMessageCount!!
                         if (adapter.itemCount > 0) {
                             analysisViewModel.sessionId = aiMessage.sessionId.toString()
@@ -352,7 +359,16 @@ class ChatFragment : Fragment(), PaywallResultHandler {
 
         binding.micBtn.setOnClickListener {
             analyticsHelperUtil.trackButtonClick("mic_button")
-            checkAndRequestAudioPermission()
+            MicrophonePermissionHandler.requestMicrophonePermission(
+                activity = requireActivity(),
+                permissionLauncher = microphonePermissionLauncher,
+                onPermissionGranted = {
+                    startSpeechToText()
+                },
+                onPermissionDenied = {
+                    showToast("Permission Denied")
+                }
+            )
         }
 
         binding.audioCancelBtn.setOnClickListener {
@@ -389,6 +405,7 @@ class ChatFragment : Fragment(), PaywallResultHandler {
             activity = requireActivity(),
             messages = arrayListOf(),
             onAnalysisClick = { message, _ ->
+                stopMessageAudio()
                 val analysisBaseViewBottomSheet =
                     if (!viewModel.isHistory) AnalysisTabViewFragment.newInstance(
                         message.content!!,
@@ -409,6 +426,9 @@ class ChatFragment : Fragment(), PaywallResultHandler {
             },
             collapseKeyboard = {
                 hideKeyboard()
+            },
+            onPlayAudio = { message ->
+                playMessageAudio(message)
             }
         )
         val mAdapter = ScenarioButtonAdapter(
@@ -450,33 +470,55 @@ class ChatFragment : Fragment(), PaywallResultHandler {
         }
     }
 
-    private fun checkAndRequestAudioPermission() {
-        when {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.RECORD_AUDIO
-            ) == PackageManager.PERMISSION_GRANTED -> {
-                startSpeechToText()
-            }
 
-            shouldShowRequestPermissionRationale(Manifest.permission.RECORD_AUDIO) -> {
-                Toast.makeText(
-                    requireContext(),
-                    "Microphone permission is needed to use voice input",
-                    Toast.LENGTH_SHORT
-                ).show()
-                requestAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-            }
-
-            else -> {
-                requestAudioPermissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
-            }
-        }
-    }
 
     private fun initSpeechRecognizer() {
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(requireContext()).apply {
             setRecognitionListener(createRecognitionListener())
+        }
+    }
+
+    private fun initTextToSpeech() {
+        textToSpeech = TextToSpeech(requireContext()) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                val result = textToSpeech.setLanguage(Locale.US)
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    showToast("Text to speech language not supported")
+                } else {
+                    isTtsReady = true
+                    textToSpeech.setOnUtteranceProgressListener(object :
+                        UtteranceProgressListener() {
+                        override fun onStart(utteranceId: String?) {
+                            // Speech started
+                            isPlaying = true
+                        }
+
+                        override fun onDone(utteranceId: String?) {
+                            // Speech completed
+                            activity?.runOnUiThread {
+                                isPlaying = false
+                                currentlyPlayingId = null
+                                // Update all message views to reset play button
+                                adapter.notifyDataSetChanged()
+                            }
+                        }
+
+                        @Deprecated("Deprecated in Java")
+                        override fun onError(utteranceId: String?) {
+                            // Error occurred
+                            activity?.runOnUiThread {
+                                isPlaying = false
+                                currentlyPlayingId = null
+                                // Update all message views to reset play button
+                                adapter.notifyDataSetChanged()
+                                showToast("Error in text to speech")
+                            }
+                        }
+                    })
+                }
+            } else {
+                showToast("Text to speech initialization failed")
+            }
         }
     }
 
@@ -601,8 +643,51 @@ class ChatFragment : Fragment(), PaywallResultHandler {
         binding.textContainer.visible()
     }
 
+    private fun playMessageAudio(message: ChatMessage) {
+        val messageId = message.id ?: UUID.randomUUID().toString()
+
+        // If already playing this message, stop it
+        if (isPlaying && currentlyPlayingId == messageId) {
+            stopMessageAudio()
+            return
+        }
+
+        // If another message is playing, stop it first
+        if (isPlaying) {
+            stopMessageAudio()
+        }
+
+        // Play the new message
+        if (isTtsReady) {
+            val text = message.content ?: return
+            val utteranceId = messageId
+            currentlyPlayingId = messageId
+
+            textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, utteranceId)
+            analyticsHelperUtil.trackButtonClick("play_audio_button")
+
+            // Update the UI to show playing state
+            adapter.notifyDataSetChanged()
+        } else {
+            showToast("Text to speech is not ready yet")
+        }
+    }
+
+    private fun stopMessageAudio() {
+        if (isTtsReady && isPlaying) {
+            textToSpeech.stop()
+            isPlaying = false
+            currentlyPlayingId = null
+
+            // Update the UI to show stopped state
+            adapter.notifyDataSetChanged()
+            analyticsHelperUtil.trackButtonClick("stop_audio_button")
+        }
+    }
+
     override fun onPause() {
         super.onPause()
+        stopMessageAudio()
         speechRecognizer?.cancel()
     }
 
@@ -613,6 +698,10 @@ class ChatFragment : Fragment(), PaywallResultHandler {
             destroy()
         }
         speechRecognizer = null
+        if (::textToSpeech.isInitialized) {
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
     }
 
     private fun showSelectTopicTapTarget() {

@@ -12,6 +12,7 @@ data class ChatMessage(
     val user: String? = null,
     val content: String? = null,
     val userMessageCount: Int? = null,
+    val maxProgress: Int? = null,
     val isSessionCompleted: Boolean? = null,
     var time: String? = null,
     val role: String? = null,
